@@ -1,0 +1,1295 @@
+<!DOCTYPE html>
+<html lang="sq">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Eksploruesi i Matematikës</title>
+<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Mono:wght@400;500&family=Outfit:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --bg:#0f0f13;--surface:#17171d;--surface2:#1e1e26;
+  --border:rgba(255,255,255,0.07);--border2:rgba(255,255,255,0.13);
+  --text:#e8e8f0;--text2:#9090a8;--text3:#5a5a72;
+  --purple:#a78bfa;--blue:#60a5fa;--green:#4ade80;
+  --coral:#fb7185;--amber:#fbbf24;--teal:#2dd4bf;
+}
+html{scroll-behavior:smooth}
+body{background:var(--bg);color:var(--text);font-family:'Outfit',sans-serif;font-weight:400;min-height:100vh;overflow-x:hidden}
+
+nav{position:sticky;top:0;z-index:100;background:rgba(15,15,19,0.92);backdrop-filter:blur(12px);border-bottom:1px solid var(--border);padding:0 2rem;display:flex;align-items:center;height:54px}
+.nav-logo{font-family:'DM Serif Display',serif;font-size:1.2rem;color:var(--text);margin-right:2rem;white-space:nowrap}
+.nav-logo span{color:var(--purple)}
+.nav-links{display:flex;gap:2px;overflow-x:auto;flex:1}
+.nav-links::-webkit-scrollbar{display:none}
+.nav-link{padding:6px 12px;border-radius:6px;font-size:12px;font-weight:500;color:var(--text2);cursor:pointer;white-space:nowrap;border:none;background:none;transition:all .15s}
+.nav-link:hover{color:var(--text);background:rgba(255,255,255,0.05)}
+.nav-link.active{color:var(--purple);background:rgba(167,139,250,0.1)}
+
+.hero{padding:5rem 2rem 3rem;max-width:760px;margin:0 auto;text-align:center}
+.hero h1{font-family:'DM Serif Display',serif;font-size:clamp(2.4rem,6vw,3.8rem);line-height:1.1;margin-bottom:1rem;letter-spacing:-0.02em}
+.hero h1 em{font-style:italic;color:var(--purple)}
+.hero p{color:var(--text2);font-size:1.05rem;line-height:1.7;max-width:520px;margin:0 auto 2rem}
+.pill-row{display:flex;gap:8px;flex-wrap:wrap;justify-content:center}
+.pill{padding:5px 14px;border-radius:20px;font-size:12px;font-weight:500;border:1px solid var(--border2);color:var(--text2)}
+
+.section{padding:2rem;max-width:860px;margin:0 auto 3rem;scroll-margin-top:70px}
+.section-header{display:flex;align-items:baseline;gap:12px;margin-bottom:1.5rem;padding-bottom:1rem;border-bottom:1px solid var(--border)}
+.section-num{font-family:'DM Mono',monospace;font-size:11px;color:var(--text3);font-weight:500}
+.section-title{font-family:'DM Serif Display',serif;font-size:1.6rem;color:var(--text)}
+.section-tag{margin-left:auto;font-size:11px;font-weight:500;padding:3px 10px;border-radius:20px}
+.tag-algebra{background:rgba(167,139,250,0.12);color:var(--purple)}
+.tag-geometry{background:rgba(74,222,128,0.1);color:var(--green)}
+.tag-trig{background:rgba(96,165,250,0.1);color:var(--blue)}
+.tag-circle{background:rgba(45,212,191,0.1);color:var(--teal)}
+
+.card{background:var(--surface);border:1px solid var(--border);border-radius:16px;padding:1.5rem;margin-bottom:1rem}
+.card-desc{font-size:13px;color:var(--text2);line-height:1.6;margin-bottom:1.2rem}
+.formula-display{font-family:'DM Mono',monospace;font-size:1.1rem;font-weight:500;text-align:center;padding:12px;background:rgba(255,255,255,0.03);border:1px solid var(--border);border-radius:10px;margin-bottom:1.2rem;color:var(--text)}
+
+/* UNIVERSAL CONTROL ROW */
+.ctrl-group{margin-bottom:14px}
+.ctrl-row{display:flex;align-items:center;gap:8px;margin-bottom:7px}
+.ctrl-label{font-family:'DM Mono',monospace;font-size:13px;font-weight:500;min-width:60px;flex-shrink:0}
+input[type=range]{flex:1;-webkit-appearance:none;height:4px;border-radius:2px;background:var(--surface2);outline:none;cursor:pointer;min-width:0}
+input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:16px;height:16px;border-radius:50%;background:var(--purple);cursor:pointer;border:2px solid var(--bg)}
+.num-wrap{display:flex;align-items:center;gap:0;flex-shrink:0}
+.arr-btn{width:24px;height:28px;background:var(--surface2);border:1px solid var(--border2);color:var(--text2);font-size:13px;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:all .12s;user-select:none;line-height:1}
+.arr-btn:first-child{border-radius:6px 0 0 6px;border-right:none}
+.arr-btn:last-child{border-radius:0 6px 6px 0;border-left:none}
+.arr-btn:hover{background:rgba(167,139,250,0.15);color:var(--purple)}
+input[type=number]{width:62px;background:var(--surface2);border:1px solid var(--border2);border-left:none;border-right:none;color:var(--text);font-family:'DM Mono',monospace;font-size:12px;padding:5px 4px;text-align:center;outline:none;-moz-appearance:textfield}
+input[type=number]::-webkit-inner-spin-button,input[type=number]::-webkit-outer-spin-button{-webkit-appearance:none}
+input[type=number]:focus{border-color:var(--purple);border-left:1px solid var(--purple);border-right:1px solid var(--purple)}
+
+.info-grid{display:grid;gap:8px;margin-top:12px}
+.info-grid-2{grid-template-columns:1fr 1fr}
+.info-grid-3{grid-template-columns:1fr 1fr 1fr}
+.info-grid-4{grid-template-columns:repeat(4,1fr)}
+.ic{background:var(--surface2);border-radius:10px;padding:10px 12px;border:1px solid var(--border)}
+.ic .lbl{font-size:10px;font-weight:500;color:var(--text3);margin-bottom:3px}
+.ic .val{font-size:14px;font-weight:500;color:var(--text);font-family:'DM Mono',monospace}
+.ic.purple .lbl{color:var(--purple)}.ic.purple .val{color:var(--purple)}
+.ic.blue .lbl{color:var(--blue)}.ic.blue .val{color:var(--blue)}
+.ic.green .lbl{color:var(--green)}.ic.green .val{color:var(--green)}
+.ic.coral .lbl{color:var(--coral)}.ic.coral .val{color:var(--coral)}
+.ic.teal .lbl{color:var(--teal)}.ic.teal .val{color:var(--teal)}
+
+canvas{display:block;width:100%;border-radius:12px;border:1px solid var(--border);touch-action:none}
+.hint{text-align:center;font-size:11px;color:var(--text3);margin-top:8px}
+
+.toggle-row{display:flex;gap:6px;margin-bottom:12px}
+.tog{flex:1;padding:7px;border-radius:8px;border:1px solid var(--border2);background:var(--surface2);color:var(--text2);font-size:12px;font-weight:500;cursor:pointer;text-align:center;transition:all .15s}
+.tog.on-sine{background:rgba(96,165,250,0.12);border-color:rgba(96,165,250,0.3);color:var(--blue)}
+.tog.on-cosine{background:rgba(74,222,128,0.1);border-color:rgba(74,222,128,0.3);color:var(--green)}
+
+.thm-tabs{display:grid;grid-template-columns:repeat(3,1fr);gap:5px;margin-bottom:10px}
+.thm-tab{padding:7px 4px;border-radius:8px;border:1px solid var(--border);background:var(--surface2);color:var(--text3);font-size:11px;font-weight:500;cursor:pointer;text-align:center;line-height:1.3;transition:all .15s}
+.thm-tab.on{background:rgba(45,212,191,0.1);border-color:rgba(45,212,191,0.3);color:var(--teal)}
+.thm-box{background:rgba(45,212,191,0.07);border:1px solid rgba(45,212,191,0.2);border-radius:10px;padding:10px 14px;font-size:13px;font-weight:500;color:var(--teal);text-align:center;margin-bottom:12px;line-height:1.5}
+
+footer{border-top:1px solid var(--border);padding:2rem;text-align:center;color:var(--text3);font-size:12px;margin-top:3rem}
+
+@media(max-width:540px){
+  .info-grid-4{grid-template-columns:1fr 1fr}
+  .ctrl-label{min-width:44px}
+}
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="nav-logo">Mat<span>&#8734;</span>Eksplorues</div>
+  <div class="nav-links">
+    <button class="nav-link active" onclick="scrollTo2('quadratic')">Ekuacioni Kuadratik</button>
+    <button class="nav-link" onclick="scrollTo2('pythagorean')">Teorema e Pitagorës</button>
+    <button class="nav-link" onclick="scrollTo2('unitcircle')">Rrethi Njësi</button>
+    <button class="nav-link" onclick="scrollTo2('sinecos')">Sinus &amp; Kosinus</button>
+    <button class="nav-link" onclick="scrollTo2('circles')">Teoremat e Rrethit</button>
+  </div>
+</nav>
+
+<div class="hero">
+  <h1>Eksploruesi<br><em>Interaktiv i Matematikës</em></h1>
+  <p>Zvarrit, rrëshqit dhe eksploroni ekuacionet dhe teoremat më të rëndësishme — të gjitha të sjella në jetë.</p>
+  <div class="pill-row">
+    <div class="pill">Algjebër</div>
+    <div class="pill">Gjeometri</div>
+    <div class="pill">Trigonometri</div>
+    <div class="pill">Teoremat e Rrethit</div>
+  </div>
+</div>
+
+<!-- ══════════════════ 01 QUADRATIC ══════════════════ -->
+<div class="section" id="quadratic">
+  <div class="section-header">
+    <span class="section-num">01</span>
+    <span class="section-title">Ekuacioni Kuadratik</span>
+    <span class="section-tag tag-algebra">Algjebër</span>
+  </div>
+  <div class="card">
+    <div class="card-desc">Eksploroni si koeficientët a, b dhe c formësojnë parabolën. Shikoni rrënjët, kulmin dhe prerjen me boshtin y të përditësohen në kohë reale.</div>
+    <div class="formula-display" id="q-formula">f(x) = x²</div>
+    <div class="ctrl-group">
+      <div class="ctrl-row">
+        <span class="ctrl-label" style="color:var(--blue)">a</span>
+        <input type="range" min="-15" max="15" step="0.1" value="1" id="q-sl-a" oninput="qSync('a',parseFloat(this.value))">
+        <div class="num-wrap">
+          <button class="arr-btn" onclick="qStep('a',-0.1)">‹</button>
+          <input type="number" min="-15" max="15" step="0.1" value="1" id="q-num-a" oninput="qSync('a',parseFloat(this.value))" onchange="qClamp('a')">
+          <button class="arr-btn" onclick="qStep('a',0.1)">›</button>
+        </div>
+      </div>
+      <div class="ctrl-row">
+        <span class="ctrl-label" style="color:var(--green)">b</span>
+        <input type="range" min="-15" max="15" step="0.1" value="0" id="q-sl-b" oninput="qSync('b',parseFloat(this.value))">
+        <div class="num-wrap">
+          <button class="arr-btn" onclick="qStep('b',-0.1)">‹</button>
+          <input type="number" min="-15" max="15" step="0.1" value="0" id="q-num-b" oninput="qSync('b',parseFloat(this.value))" onchange="qClamp('b')">
+          <button class="arr-btn" onclick="qStep('b',0.1)">›</button>
+        </div>
+      </div>
+      <div class="ctrl-row">
+        <span class="ctrl-label" style="color:var(--coral)">c</span>
+        <input type="range" min="-15" max="15" step="0.1" value="0" id="q-sl-c" oninput="qSync('c',parseFloat(this.value))">
+        <div class="num-wrap">
+          <button class="arr-btn" onclick="qStep('c',-0.1)">‹</button>
+          <input type="number" min="-15" max="15" step="0.1" value="0" id="q-num-c" oninput="qSync('c',parseFloat(this.value))" onchange="qClamp('c')">
+          <button class="arr-btn" onclick="qStep('c',0.1)">›</button>
+        </div>
+      </div>
+    </div>
+    <canvas id="q-cv" height="300"></canvas>
+    <div class="info-grid info-grid-4" style="margin-top:10px">
+      <div class="ic blue"><div class="lbl">Diskriminanti</div><div class="val" id="q-disc">—</div></div>
+      <div class="ic green"><div class="lbl">Rrënjët</div><div class="val" id="q-roots">—</div></div>
+      <div class="ic coral"><div class="lbl">Kulmi</div><div class="val" id="q-vertex">—</div></div>
+      <div class="ic purple"><div class="lbl">Prerja me y</div><div class="val" id="q-yint">—</div></div>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════════ 02 PYTHAGOREAN ══════════════════ -->
+<div class="section" id="pythagorean">
+  <div class="section-header">
+    <span class="section-num">02</span>
+    <span class="section-title">Teorema e Pitagorës</span>
+    <span class="section-tag tag-geometry">Gjeometri</span>
+  </div>
+  <div class="card">
+    <div class="card-desc">Rregulloni brinjët a dhe b me shiritin, shigjetat ose numrin. Katratet me ngjyra tregojnë sipërfaqet a², b² dhe c².</div>
+    <div class="formula-display" id="py-formula">3.0² + 4.0² = 5.0²</div>
+    <div class="ctrl-group">
+      <div class="ctrl-row">
+        <span class="ctrl-label" style="color:var(--blue)">Brinja a</span>
+        <input type="range" min="1" max="9" step="0.1" value="3" id="py-sl-a" oninput="pySync('a',parseFloat(this.value))">
+        <div class="num-wrap">
+          <button class="arr-btn" onclick="pyStep('a',-0.1)">‹</button>
+          <input type="number" min="1" max="9" step="0.1" value="3" id="py-num-a" oninput="pySync('a',parseFloat(this.value))" onchange="pyClamp('a')">
+          <button class="arr-btn" onclick="pyStep('a',0.1)">›</button>
+        </div>
+      </div>
+      <div class="ctrl-row">
+        <span class="ctrl-label" style="color:var(--green)">Brinja b</span>
+        <input type="range" min="1" max="9" step="0.1" value="4" id="py-sl-b" oninput="pySync('b',parseFloat(this.value))">
+        <div class="num-wrap">
+          <button class="arr-btn" onclick="pyStep('b',-0.1)">‹</button>
+          <input type="number" min="1" max="9" step="0.1" value="4" id="py-num-b" oninput="pySync('b',parseFloat(this.value))" onchange="pyClamp('b')">
+          <button class="arr-btn" onclick="pyStep('b',0.1)">›</button>
+        </div>
+      </div>
+    </div>
+    <canvas id="py-cv"></canvas>
+    <div class="info-grid info-grid-3" style="margin-top:10px">
+      <div class="ic blue"><div class="lbl">Brinja a</div><div class="val" id="py-a">3.0</div></div>
+      <div class="ic green"><div class="lbl">Brinja b</div><div class="val" id="py-b">4.0</div></div>
+      <div class="ic coral"><div class="lbl">Hipotenuzja c</div><div class="val" id="py-c">5.0</div></div>
+    </div>
+    <div class="hint">Mund të tërhiqni gjithashtu cepat e trekëndëshit direkt në vizatim</div>
+  </div>
+</div>
+
+<!-- ══════════════════ 03 UNIT CIRCLE ══════════════════ -->
+<div class="section" id="unitcircle">
+  <div class="section-header">
+    <span class="section-num">03</span>
+    <span class="section-title">Rrethi Njësi</span>
+    <span class="section-tag tag-trig">Trigonometri</span>
+  </div>
+  <div class="card">
+    <div class="card-desc">Rregulloni këndin θ me shiritin, shigjetat ose duke futur vlerën. Shikoni si ndryshojnë sin, cos dhe tan.</div>
+    <div class="info-grid info-grid-4" style="margin-bottom:12px">
+      <div class="ic purple"><div class="lbl">Këndi θ</div><div class="val" id="uc-ang">45.0°</div></div>
+      <div class="ic blue"><div class="lbl">cos θ</div><div class="val" id="uc-cos">0.707</div></div>
+      <div class="ic green"><div class="lbl">sin θ</div><div class="val" id="uc-sin">0.707</div></div>
+      <div class="ic coral"><div class="lbl">tan θ</div><div class="val" id="uc-tan">1.000</div></div>
+    </div>
+    <div class="ctrl-group">
+      <div class="ctrl-row">
+        <span class="ctrl-label" style="color:var(--purple)">Këndi θ</span>
+        <input type="range" min="0" max="360" step="0.5" value="45" id="uc-slider" oninput="ucFromSlider(parseFloat(this.value))">
+        <div class="num-wrap">
+          <button class="arr-btn" onclick="ucStep(-1)">‹</button>
+          <input type="number" min="0" max="360" step="0.5" value="45" id="uc-num" oninput="ucFromNum(parseFloat(this.value))" onchange="ucClampNum()">
+          <button class="arr-btn" onclick="ucStep(1)">›</button>
+        </div>
+      </div>
+    </div>
+    <canvas id="uc-cv"></canvas>
+    <canvas id="uc-wave" height="90" style="margin-top:10px"></canvas>
+    <div class="hint">Ose tërhiqni pikën vjollcë direkt në rreth</div>
+  </div>
+</div>
+
+<!-- ══════════════════ 04 SINE & COSINE RULE ══════════════════ -->
+<div class="section" id="sinecos">
+  <div class="section-header">
+    <span class="section-num">04</span>
+    <span class="section-title">Rregulli i Sinusit &amp; Kosinusit</span>
+    <span class="section-tag tag-trig">Trigonometri</span>
+  </div>
+  <div class="card">
+    <div class="card-desc">Rregulloni këndet e trekëndëshit me shiritin, shigjetat ose duke futur vlerën. Ndërroni midis dy rregullave.</div>
+    <div class="toggle-row">
+      <div class="tog on-sine" id="sc-sine" onclick="scMode('sine')">Rregulli i sinusit &nbsp; a/sin A = b/sin B = c/sin C</div>
+      <div class="tog" id="sc-cos" onclick="scMode('cosine')">Rregulli i kosinusit &nbsp; a² = b²+c²−2bc·cos(A)</div>
+    </div>
+    <div class="formula-display" id="sc-formula">a / sin(A) = b / sin(B) = c / sin(C)</div>
+    <div class="ctrl-group">
+      <div class="ctrl-row">
+        <span class="ctrl-label" style="color:var(--blue)">Këndi A</span>
+        <input type="range" min="-180" max="180" step="1" value="0" id="sc-sl-A" oninput="scSyncAngle('A',parseFloat(this.value))">
+        <div class="num-wrap">
+          <button class="arr-btn" onclick="scStepAngle('A',-1)">‹</button>
+          <input type="number" min="-180" max="180" step="1" value="0" id="sc-num-A" oninput="scSyncAngle('A',parseFloat(this.value))">
+          <button class="arr-btn" onclick="scStepAngle('A',1)">›</button>
+        </div>
+      </div>
+      <div class="ctrl-row">
+        <span class="ctrl-label" style="color:var(--green)">Këndi B</span>
+        <input type="range" min="-180" max="180" step="1" value="-120" id="sc-sl-B" oninput="scSyncAngle('B',parseFloat(this.value))">
+        <div class="num-wrap">
+          <button class="arr-btn" onclick="scStepAngle('B',-1)">‹</button>
+          <input type="number" min="-180" max="180" step="1" value="-120" id="sc-num-B" oninput="scSyncAngle('B',parseFloat(this.value))">
+          <button class="arr-btn" onclick="scStepAngle('B',1)">›</button>
+        </div>
+      </div>
+      <div class="ctrl-row">
+        <span class="ctrl-label" style="color:var(--coral)">Këndi C</span>
+        <input type="range" min="-180" max="180" step="1" value="120" id="sc-sl-C" oninput="scSyncAngle('C',parseFloat(this.value))">
+        <div class="num-wrap">
+          <button class="arr-btn" onclick="scStepAngle('C',-1)">‹</button>
+          <input type="number" min="-180" max="180" step="1" value="120" id="sc-num-C" oninput="scSyncAngle('C',parseFloat(this.value))">
+          <button class="arr-btn" onclick="scStepAngle('C',1)">›</button>
+        </div>
+      </div>
+    </div>
+    <canvas id="sc-cv"></canvas>
+    <div class="info-grid info-grid-3" style="margin-top:10px">
+      <div class="ic blue"><div class="lbl">Këndi A / Brinja a</div><div class="val" id="sc-A">—</div></div>
+      <div class="ic green"><div class="lbl">Këndi B / Brinja b</div><div class="val" id="sc-B">—</div></div>
+      <div class="ic coral"><div class="lbl">Këndi C / Brinja c</div><div class="val" id="sc-C">—</div></div>
+    </div>
+    <div class="ic" style="margin-top:8px;text-align:center">
+      <div class="lbl">Verifikimi</div>
+      <div class="val" id="sc-verify" style="font-size:12px">—</div>
+    </div>
+    <div class="hint">Mund të tërhiqni gjithashtu kulmet direkt në vizatim</div>
+  </div>
+</div>
+
+<!-- ══════════════════ 05 CIRCLE THEOREMS ══════════════════ -->
+<div class="section" id="circles">
+  <div class="section-header">
+    <span class="section-num">05</span>
+    <span class="section-title">Teoremat e Rrethit</span>
+    <span class="section-tag tag-circle">Gjeometri</span>
+  </div>
+  <div class="card">
+    <div class="card-desc">Gjashtë teorema kryesore — rregulloni pozicionet e pikave me shiritët, shigjetat ose duke futur vlerën (gradë 0–360).</div>
+    <div class="thm-tabs">
+      <div class="thm-tab on" onclick="ctSet(0)">Këndi në qendër</div>
+      <div class="thm-tab" onclick="ctSet(1)">I njëjti segment</div>
+      <div class="thm-tab" onclick="ctSet(2)">Gjysëmrrethi</div>
+      <div class="thm-tab" onclick="ctSet(3)">Katërkëndëshi ciklik</div>
+      <div class="thm-tab" onclick="ctSet(4)">Tangjentja-rrezja</div>
+      <div class="thm-tab" onclick="ctSet(5)">Gjatësia e tangjenteve</div>
+    </div>
+    <div class="thm-box" id="ct-box">Këndi në qendër është dy herë këndi në rrethësi</div>
+    <div class="ctrl-group" id="ct-controls"></div>
+    <canvas id="ct-cv"></canvas>
+    <div class="info-grid info-grid-2" style="margin-top:10px">
+      <div class="ic teal"><div class="lbl" id="ct-lbl0">—</div><div class="val" id="ct-val0">—</div></div>
+      <div class="ic purple"><div class="lbl" id="ct-lbl1">—</div><div class="val" id="ct-val1">—</div></div>
+    </div>
+    <div class="hint" id="ct-hint">Zvarrit pikat ose përdorni kontrollet</div>
+  </div>
+</div>
+
+<footer>
+  Mat&#8734;Eksplorues &middot; Ndërtuar interaktivisht &middot; Të gjitha teoremat vlejnë për çdo konfigurim
+  <div style="margin-top:1rem;padding-top:1rem;border-top:1px solid rgba(255,255,255,0.06);display:flex;align-items:center;justify-content:center;gap:12px;flex-wrap:wrap">
+    <span style="font-size:10px;font-weight:600;letter-spacing:0.12em;color:var(--text3);text-transform:uppercase">Punuan</span>
+    <span style="padding:5px 16px;border-radius:20px;border:2px solid var(--purple);color:var(--purple);font-size:12px;font-weight:600;background:rgba(167,139,250,0.08)">Sabian Mjeshtri</span>
+    <span style="padding:5px 16px;border-radius:20px;border:2px solid var(--blue);color:var(--blue);font-size:12px;font-weight:600;background:rgba(96,165,250,0.08)">Klevis Otobashi</span>
+    <span style="padding:5px 16px;border-radius:20px;border:2px solid var(--green);color:var(--green);font-size:12px;font-weight:600;background:rgba(74,222,128,0.08)">Flavio Ismaili</span>
+  </div>
+</footer>
+
+<script>
+// ─── UTILITIES ────────────────────────────────────────────────
+const dpr = window.devicePixelRatio || 1;
+function scrollTo2(id){document.getElementById(id).scrollIntoView({behavior:'smooth'});}
+function dist(a,b){return Math.hypot(a.x-b.x,a.y-b.y);}
+function angleBetween(v,p1,p2){
+  const ax=p1.x-v.x,ay=p1.y-v.y,bx=p2.x-v.x,by=p2.y-v.y;
+  const d=Math.hypot(ax,ay)*Math.hypot(bx,by);
+  return d<.001?0:Math.acos(Math.max(-1,Math.min(1,(ax*bx+ay*by)/d)));
+}
+function degStr(r){return (r*180/Math.PI).toFixed(1)+'°';}
+function ptOnCircle(cx,cy,cr,a){return{x:cx+Math.cos(a)*cr,y:cy+Math.sin(a)*cr};}
+function setupCanvas(cv,h){
+  const w=cv.parentElement.offsetWidth-48;
+  const height=h||Math.round(w*0.68);
+  cv.width=w*dpr;cv.height=height*dpr;
+  cv.style.width=w+'px';cv.style.height=height+'px';
+  return{w,h:height};
+}
+function drawDot(ctx,x,y,col,r){
+  r=r||7;ctx.beginPath();ctx.arc(x,y,r,0,Math.PI*2);
+  ctx.fillStyle=col;ctx.fill();
+  ctx.strokeStyle='#0f0f13';ctx.lineWidth=2;ctx.stroke();
+}
+function drawLine(ctx,p1,p2,col,w,dash){
+  w=w||1.5;dash=dash||[];
+  ctx.beginPath();ctx.moveTo(p1.x,p1.y);ctx.lineTo(p2.x,p2.y);
+  ctx.strokeStyle=col;ctx.lineWidth=w;ctx.setLineDash(dash);ctx.stroke();ctx.setLineDash([]);
+}
+function drawLabel(ctx,txt,x,y,col,size,align){
+  size=size||12;align=align||'center';
+  ctx.fillStyle=col;ctx.font='bold '+size+'px \'DM Mono\',monospace';
+  ctx.textAlign=align;ctx.textBaseline='middle';ctx.fillText(txt,x,y);
+}
+function r2(v){return Math.round(v*100)/100;}
+function clamp(v,mn,mx){return Math.max(mn,Math.min(mx,v));}
+
+window.addEventListener('scroll',()=>{
+  const secs=['quadratic','pythagorean','unitcircle','sinecos','circles'];
+  const links=document.querySelectorAll('.nav-link');
+  let active=0;
+  secs.forEach((id,i)=>{const el=document.getElementById(id);if(el&&el.getBoundingClientRect().top<100)active=i;});
+  links.forEach((l,i)=>l.classList.toggle('active',i===active));
+});
+
+// ─── QUADRATIC ────────────────────────────────────────────────
+const qcv=document.getElementById('q-cv');
+const qctx=qcv.getContext('2d');
+let qA=1,qB=0,qC=0,qAnim=null,qW=0,qH=0;
+let qCurA=1,qCurB=0,qCurC=0;
+
+function qStep(l,d){
+  const cur={a:qA,b:qB,c:qC};
+  const nv=parseFloat((clamp(cur[l]+d,-15,15)).toFixed(1));
+  qSync(l,nv);
+}
+function qClamp(l){
+  const n=document.getElementById('q-num-'+l);
+  let v=parseFloat(n.value);if(isNaN(v))v=0;
+  qSync(l,clamp(parseFloat(v.toFixed(1)),-15,15));
+}
+function qSync(l,v){
+  if(isNaN(v))return;
+  v=clamp(parseFloat(v.toFixed(1)),-15,15);
+  if(l==='a')qA=v;if(l==='b')qB=v;if(l==='c')qC=v;
+  document.getElementById('q-sl-'+l).value=v;
+  document.getElementById('q-num-'+l).value=v;
+  qUpdateInfo(qA,qB,qC);
+  if(!qAnim)qAnim=requestAnimationFrame(qAnimate);
+}
+function qAnimate(){
+  qCurA+=(qA-qCurA)*0.18;qCurB+=(qB-qCurB)*0.18;qCurC+=(qC-qCurC)*0.18;
+  qDraw(qCurA,qCurB,qCurC);
+  if(Math.abs(qCurA-qA)>.0005||Math.abs(qCurB-qB)>.0005||Math.abs(qCurC-qC)>.0005){
+    qAnim=requestAnimationFrame(qAnimate);
+  }else{qCurA=qA;qCurB=qB;qCurC=qC;qDraw(qCurA,qCurB,qCurC);qAnim=null;}
+}
+function qDraw(a,b,c){
+  qctx.clearRect(0,0,qcv.width,qcv.height);
+  qctx.save();qctx.scale(dpr,dpr);
+  const W=qW,H=qH,xMin=-12,xMax=12,yMin=-14,yMax=14;
+  function toP(x,y){return[(x-xMin)/(xMax-xMin)*W,H-(y-yMin)/(yMax-yMin)*H];}
+  qctx.strokeStyle='rgba(255,255,255,0.04)';qctx.lineWidth=0.5;
+  for(let i=xMin;i<=xMax;i++){const[px]=toP(i,0);qctx.beginPath();qctx.moveTo(px,0);qctx.lineTo(px,H);qctx.stroke();}
+  for(let i=yMin;i<=yMax;i++){const[,py]=toP(0,i);qctx.beginPath();qctx.moveTo(0,py);qctx.lineTo(W,py);qctx.stroke();}
+  qctx.strokeStyle='rgba(255,255,255,0.15)';qctx.lineWidth=1;
+  const[ax0,ay]=toP(xMin,0),[ax1]=toP(xMax,0);
+  qctx.beginPath();qctx.moveTo(ax0,ay);qctx.lineTo(ax1,ay);qctx.stroke();
+  const[ox,oy0]=toP(0,yMin),[,oy1]=toP(0,yMax);
+  qctx.beginPath();qctx.moveTo(ox,oy0);qctx.lineTo(ox,oy1);qctx.stroke();
+  qctx.fillStyle='rgba(255,255,255,0.2)';qctx.font='10px sans-serif';qctx.textAlign='center';
+  for(let i=xMin+2;i<=xMax;i+=2){if(!i)continue;const[px,py]=toP(i,0);qctx.fillText(i,px,py+13);}
+  qctx.textAlign='right';
+  for(let i=yMin+2;i<=yMax;i+=2){if(!i)continue;const[px,py]=toP(0,i);qctx.fillText(i,px-4,py+3);}
+  const lin=Math.abs(a)<0.001;
+  qctx.beginPath();qctx.strokeStyle='#a78bfa';qctx.lineWidth=2.5;qctx.lineJoin='round';
+  let started=false;const steps=W*2;
+  for(let px=0;px<=steps;px++){
+    const x=xMin+(px/steps)*(xMax-xMin);
+    const y=lin?b*x+c:a*x*x+b*x+c;
+    if(y<yMin-30||y>yMax+30){started=false;continue;}
+    const[sx,sy]=toP(x,y);
+    if(!started){qctx.moveTo(sx,sy);started=true;}else qctx.lineTo(sx,sy);
+  }
+  qctx.stroke();
+  if(!lin){
+    const disc=b*b-4*a*c;
+    if(disc>=0){
+      const sq=Math.sqrt(Math.max(0,disc));
+      const roots=disc<.001?[(-b)/(2*a)]:[(-b+sq)/(2*a),(-b-sq)/(2*a)];
+      roots.forEach(rx=>{
+        if(rx<xMin-.5||rx>xMax+.5)return;
+        const[px,py]=toP(rx,0);
+        qctx.beginPath();qctx.arc(px,py,5,0,Math.PI*2);
+        qctx.fillStyle='#fb7185';qctx.fill();
+        qctx.strokeStyle='#0f0f13';qctx.lineWidth=1.5;qctx.stroke();
+      });
+    }
+    const vx=-b/(2*a),vy=a*vx*vx+b*vx+c;
+    if(vx>=xMin&&vx<=xMax&&vy>=yMin&&vy<=yMax){
+      const[px,py]=toP(vx,vy);
+      qctx.beginPath();qctx.arc(px,py,5,0,Math.PI*2);
+      qctx.fillStyle='#4ade80';qctx.fill();
+      qctx.strokeStyle='#0f0f13';qctx.lineWidth=1.5;qctx.stroke();
+    }
+  }
+  if(c>=yMin&&c<=yMax){
+    const[px,py]=toP(0,c);
+    qctx.beginPath();qctx.arc(px,py,6,0,Math.PI*2);
+    qctx.fillStyle='#c084fc';qctx.fill();
+    qctx.strokeStyle='#0f0f13';qctx.lineWidth=1.5;qctx.stroke();
+    qctx.fillStyle='#c084fc';qctx.font='bold 10px sans-serif';
+    qctx.textAlign='left';qctx.textBaseline='middle';
+    qctx.fillText('y='+parseFloat(c.toFixed(2)),px+9,py-7);
+  }
+  qctx.restore();
+}
+function qUpdateInfo(a,b,c){
+  const lin=Math.abs(a)<.001;
+  let f='f(x) = ';
+  if(lin){
+    if(Math.abs(b)<.001&&Math.abs(c)<.001)f+='0';
+    else{
+      if(Math.abs(b)>.001)f+=(b===1?'':(b===-1?'−':b.toFixed(1)))+'x';
+      if(Math.abs(c)>.001)f+=(Math.abs(b)>.001?(c<0?' − ':' + '):'')+(Math.abs(c)).toFixed(1);
+    }
+  }else{
+    f+=(a===1?'':(a===-1?'−':a.toFixed(1)))+'x²';
+    if(Math.abs(b)>.001)f+=` ${b<0?'−':'+'} ${Math.abs(b)===1?'':Math.abs(b).toFixed(1)}x`;
+    if(Math.abs(c)>.001)f+=` ${c<0?'−':'+'} ${Math.abs(c).toFixed(1)}`;
+  }
+  document.getElementById('q-formula').textContent=f;
+  const disc=b*b-4*a*c;
+  document.getElementById('q-disc').textContent=disc.toFixed(2);
+  if(lin){
+    document.getElementById('q-roots').textContent=Math.abs(b)<.001?'Të gjitha x':'x='+(-c/b).toFixed(2);
+    document.getElementById('q-vertex').textContent='—';
+  }else if(disc>0.001){
+    const sq=Math.sqrt(disc);
+    document.getElementById('q-roots').textContent=((-b+sq)/(2*a)).toFixed(2)+', '+((-b-sq)/(2*a)).toFixed(2);
+    const vx=-b/(2*a);
+    document.getElementById('q-vertex').textContent='('+vx.toFixed(2)+', '+(a*vx*vx+b*vx+c).toFixed(2)+')';
+  }else if(disc>=-0.001){
+    const r=-b/(2*a);
+    document.getElementById('q-roots').textContent='x='+r.toFixed(2);
+    document.getElementById('q-vertex').textContent='('+r.toFixed(2)+', '+(a*r*r+b*r+c).toFixed(2)+')';
+  }else{
+    document.getElementById('q-roots').textContent='Nuk ka rrënjë reale';
+    const vx=-b/(2*a);
+    document.getElementById('q-vertex').textContent='('+vx.toFixed(2)+', '+(a*vx*vx+b*vx+c).toFixed(2)+')';
+  }
+  document.getElementById('q-yint').textContent='(0, '+c.toFixed(2)+')';
+}
+function qResize(){
+  const sz=setupCanvas(qcv,320);qW=sz.w;qH=sz.h;
+  qDraw(qCurA,qCurB,qCurC);qUpdateInfo(qA,qB,qC);
+}
+
+// ─── PYTHAGOREAN ──────────────────────────────────────────────
+const pycv=document.getElementById('py-cv');
+const pyctx=pycv.getContext('2d');
+let pyW=0,pyH=0,pyDrag=null;
+let pyA=3,pyB=4; // logical side lengths (1–9)
+// Vertices stored in canvas coords, rebuilt from pyA,pyB
+let pyVerts={R:{x:0,y:0},A:{x:0,y:0},B:{x:0,y:0}};
+const PY_SCALE=40; // pixels per unit
+
+function pyRebuildFromAB(){
+  const cx=pyW/2-pyA*PY_SCALE/2, cy=pyH/2+pyB*PY_SCALE/2;
+  pyVerts.R={x:cx,y:cy};
+  pyVerts.A={x:cx+pyA*PY_SCALE,y:cy};
+  pyVerts.B={x:cx,y:cy-pyB*PY_SCALE};
+}
+function pyStep(l,d){
+  if(l==='a')pyA=parseFloat(clamp(pyA+d,1,9).toFixed(1));
+  else pyB=parseFloat(clamp(pyB+d,1,9).toFixed(1));
+  document.getElementById('py-sl-'+l).value=l==='a'?pyA:pyB;
+  document.getElementById('py-num-'+l).value=l==='a'?pyA:pyB;
+  pyRebuildFromAB();pyDraw();
+}
+function pySync(l,v){
+  if(isNaN(v))return;
+  v=parseFloat(clamp(v,1,9).toFixed(1));
+  if(l==='a')pyA=v;else pyB=v;
+  document.getElementById('py-sl-'+l).value=v;
+  document.getElementById('py-num-'+l).value=v;
+  pyRebuildFromAB();pyDraw();
+}
+function pyClamp(l){
+  const n=document.getElementById('py-num-'+l);
+  let v=parseFloat(n.value);if(isNaN(v))v=l==='a'?pyA:pyB;
+  pySync(l,v);
+}
+function pyDrawSquare(p1,p2,fill,stroke){
+  const dx=p2.x-p1.x,dy=p2.y-p1.y,px=-dy,py2=dx;
+  pyctx.beginPath();pyctx.moveTo(p1.x,p1.y);pyctx.lineTo(p2.x,p2.y);
+  pyctx.lineTo(p2.x+px,p2.y+py2);pyctx.lineTo(p1.x+px,p1.y+py2);pyctx.closePath();
+  pyctx.fillStyle=fill;pyctx.fill();pyctx.strokeStyle=stroke;pyctx.lineWidth=1.5;pyctx.stroke();
+}
+function pySqMid(p1,p2){
+  const dx=p2.x-p1.x,dy=p2.y-p1.y,px=-dy*.5,py2=dx*.5;
+  return{x:(p1.x+p2.x)/2+px,y:(p1.y+p2.y)/2+py2};
+}
+function pyDraw(){
+  pyctx.clearRect(0,0,pycv.width,pycv.height);
+  pyctx.save();pyctx.scale(dpr,dpr);
+  const{R,A,B}=pyVerts;
+  const sA=dist(R,A),sB=dist(R,B),sC=dist(A,B),sc=PY_SCALE;
+  pyDrawSquare(R,A,'rgba(96,165,250,0.12)','#60a5fa');
+  pyDrawSquare(B,R,'rgba(74,222,128,0.1)','#4ade80');
+  pyDrawSquare(A,B,'rgba(251,113,133,0.12)','#fb7185');
+  const aM=pySqMid(R,A),bM=pySqMid(B,R),cM=pySqMid(A,B);
+  function sqLbl(m,txt,col,sz){
+    pyctx.fillStyle=col;pyctx.font='bold '+sz+'px \'DM Mono\',monospace';
+    pyctx.textAlign='center';pyctx.textBaseline='middle';pyctx.fillText(txt,m.x,m.y);
+  }
+  const fA=Math.max(10,Math.min(14,sA*.18)),fB=Math.max(10,Math.min(14,sB*.18)),fC=Math.max(10,Math.min(13,sC*.14));
+  sqLbl(aM,'a²='+(sA/sc*sA/sc).toFixed(1),'#60a5fa',fA);
+  sqLbl(bM,'b²='+(sB/sc*sB/sc).toFixed(1),'#4ade80',fB);
+  sqLbl(cM,'c²='+(sC/sc*sC/sc).toFixed(1),'#fb7185',fC);
+  pyctx.beginPath();pyctx.moveTo(R.x,R.y);pyctx.lineTo(A.x,A.y);pyctx.lineTo(B.x,B.y);pyctx.closePath();
+  pyctx.fillStyle='rgba(167,139,250,0.06)';pyctx.fill();
+  pyctx.strokeStyle='rgba(255,255,255,0.5)';pyctx.lineWidth=2;pyctx.stroke();
+  const sq=Math.min(sA,sB)*.15;
+  const uA={x:(A.x-R.x)/sA,y:(A.y-R.y)/sA},uB={x:(B.x-R.x)/sB,y:(B.y-R.y)/sB};
+  pyctx.beginPath();
+  pyctx.moveTo(R.x+uA.x*sq,R.y+uA.y*sq);
+  pyctx.lineTo(R.x+uA.x*sq+uB.x*sq,R.y+uA.y*sq+uB.y*sq);
+  pyctx.lineTo(R.x+uB.x*sq,R.y+uB.y*sq);
+  pyctx.strokeStyle='rgba(167,139,250,0.6)';pyctx.lineWidth=1.2;pyctx.stroke();
+  function sideLabel(p1,p2,lbl,col){
+    const mx=(p1.x+p2.x)/2,my=(p1.y+p2.y)/2,dx=p2.x-p1.x,dy=p2.y-p1.y,l=Math.hypot(dx,dy);
+    const nx=-dy/l,ny=dx/l;
+    const cx2=(R.x+A.x+B.x)/3,cy2=(R.y+A.y+B.y)/3;
+    const s=((mx+nx*16-cx2)*nx+(my+ny*16-cy2)*ny)>0?1:-1;
+    pyctx.fillStyle=col;pyctx.font='bold 13px sans-serif';
+    pyctx.textAlign='center';pyctx.textBaseline='middle';
+    pyctx.fillText(lbl,mx+nx*16*s,my+ny*16*s);
+  }
+  sideLabel(R,A,'a','#60a5fa');sideLabel(B,R,'b','#4ade80');sideLabel(A,B,'c','#fb7185');
+  [R,A,B].forEach((p,i)=>drawDot(pyctx,p.x,p.y,i===0?'#a78bfa':'#60a5fa'));
+  const sa=(sA/sc).toFixed(1),sb=(sB/sc).toFixed(1),sc2=(sC/sc).toFixed(1);
+  document.getElementById('py-a').textContent=sa;
+  document.getElementById('py-b').textContent=sb;
+  document.getElementById('py-c').textContent=sc2;
+  document.getElementById('py-formula').textContent=sa+'² + '+sb+'² = '+sc2+'²   →   '+(sa*sa).toFixed(1)+' + '+(sb*sb).toFixed(1)+' = '+(sc2*sc2).toFixed(1);
+  pyctx.restore();
+}
+function pyPt(e){
+  const r=pycv.getBoundingClientRect(),cl=e.touches?e.touches[0]:e;
+  return{x:(cl.clientX-r.left)*(pyW/r.width),y:(cl.clientY-r.top)*(pyH/r.height)};
+}
+function pyHit(p){for(const k of['R','A','B'])if(dist(p,pyVerts[k])<20)return k;return null;}
+pycv.addEventListener('mousedown',e=>{e.preventDefault();pyDrag=pyHit(pyPt(e));if(pyDrag)pycv.style.cursor='grabbing';});
+pycv.addEventListener('mousemove',e=>{
+  e.preventDefault();const p=pyPt(e);
+  if(!pyDrag){pycv.style.cursor=pyHit(p)?'grab':'default';return;}
+  const pad=25;
+  p.x=clamp(p.x,pad,pyW-pad);p.y=clamp(p.y,pad,pyH-pad);
+  if(pyDrag==='R'){
+    const dax=pyVerts.A.x-pyVerts.R.x,day=pyVerts.A.y-pyVerts.R.y;
+    const dbx=pyVerts.B.x-pyVerts.R.x,dby=pyVerts.B.y-pyVerts.R.y;
+    pyVerts.R=p;
+    pyVerts.A={x:clamp(p.x+dax,pad,pyW-pad),y:clamp(p.y+day,pad,pyH-pad)};
+    pyVerts.B={x:clamp(p.x+dbx,pad,pyW-pad),y:clamp(p.y+dby,pad,pyH-pad)};
+  }else if(pyDrag==='A'){pyVerts.A={x:p.x,y:pyVerts.R.y};}
+  else{pyVerts.B={x:pyVerts.R.x,y:p.y};}
+  // sync sliders from drag
+  const sA=dist(pyVerts.R,pyVerts.A)/PY_SCALE;
+  const sB=dist(pyVerts.R,pyVerts.B)/PY_SCALE;
+  pyA=parseFloat(clamp(sA,1,9).toFixed(1));
+  pyB=parseFloat(clamp(sB,1,9).toFixed(1));
+  document.getElementById('py-sl-a').value=pyA;document.getElementById('py-num-a').value=pyA;
+  document.getElementById('py-sl-b').value=pyB;document.getElementById('py-num-b').value=pyB;
+  pyDraw();
+});
+pycv.addEventListener('mouseup',()=>{pyDrag=null;pycv.style.cursor='default';});
+pycv.addEventListener('mouseleave',()=>{pyDrag=null;});
+pycv.addEventListener('touchstart',e=>{e.preventDefault();pyDrag=pyHit(pyPt(e));},{passive:false});
+pycv.addEventListener('touchmove',e=>{
+  e.preventDefault();if(!pyDrag)return;
+  const p=pyPt(e);const pad=25;
+  p.x=clamp(p.x,pad,pyW-pad);p.y=clamp(p.y,pad,pyH-pad);
+  if(pyDrag==='R'){
+    const dax=pyVerts.A.x-pyVerts.R.x,day=pyVerts.A.y-pyVerts.R.y;
+    const dbx=pyVerts.B.x-pyVerts.R.x,dby=pyVerts.B.y-pyVerts.R.y;
+    pyVerts.R=p;
+    pyVerts.A={x:clamp(p.x+dax,pad,pyW-pad),y:clamp(p.y+day,pad,pyH-pad)};
+    pyVerts.B={x:clamp(p.x+dbx,pad,pyW-pad),y:clamp(p.y+dby,pad,pyH-pad)};
+  }else if(pyDrag==='A')pyVerts.A={x:p.x,y:pyVerts.R.y};
+  else pyVerts.B={x:pyVerts.R.x,y:p.y};
+  const sA=dist(pyVerts.R,pyVerts.A)/PY_SCALE;
+  const sB=dist(pyVerts.R,pyVerts.B)/PY_SCALE;
+  pyA=parseFloat(clamp(sA,1,9).toFixed(1));pyB=parseFloat(clamp(sB,1,9).toFixed(1));
+  document.getElementById('py-sl-a').value=pyA;document.getElementById('py-num-a').value=pyA;
+  document.getElementById('py-sl-b').value=pyB;document.getElementById('py-num-b').value=pyB;
+  pyDraw();
+},{passive:false});
+pycv.addEventListener('touchend',()=>{pyDrag=null;});
+function pyResize(){const sz=setupCanvas(pycv);pyW=sz.w;pyH=sz.h;pyRebuildFromAB();pyDraw();}
+
+// ─── UNIT CIRCLE ──────────────────────────────────────────────
+const uccv=document.getElementById('uc-cv');
+const ucctx=uccv.getContext('2d');
+const ucwv=document.getElementById('uc-wave');
+const ucwctx=ucwv.getContext('2d');
+let ucAngle=Math.PI/4,ucDrag=false,ucW=0,ucH=0,ucCX=0,ucCY=0,ucCR=0;
+
+function ucStep(d){
+  let deg=((ucAngle*180/Math.PI)%360+360)%360;
+  deg=parseFloat(clamp(deg+d,0,360).toFixed(1));
+  ucFromSlider(deg);
+}
+function ucClampNum(){
+  const n=document.getElementById('uc-num');
+  let v=parseFloat(n.value);if(isNaN(v))v=45;
+  ucFromSlider(clamp(v,0,360));
+}
+function ucFromNum(v){if(isNaN(v))return;ucFromSlider(clamp(v,0,360));}
+function ucFromSlider(v){
+  ucAngle=parseFloat(v)*Math.PI/180;
+  document.getElementById('uc-slider').value=v;
+  document.getElementById('uc-num').value=parseFloat(v).toFixed(1);
+  ucDraw();
+}
+function ucPtAngle(e){
+  const r=uccv.getBoundingClientRect(),cl=e.touches?e.touches[0]:e;
+  return Math.atan2(-((cl.clientY-r.top)*(ucH/r.height)-ucCY),(cl.clientX-r.left)*(ucW/r.width)-ucCX);
+}
+function ucDraw(){
+  const a=ucAngle,cos=Math.cos(a),sin=Math.sin(a);
+  ucctx.clearRect(0,0,uccv.width,uccv.height);ucctx.save();ucctx.scale(dpr,dpr);
+  ucctx.strokeStyle='rgba(255,255,255,0.04)';ucctx.lineWidth=0.5;
+  for(let i=-1;i<=1;i+=.5){
+    const gx=ucCX+i*ucCR,gy=ucCY+i*ucCR;
+    ucctx.beginPath();ucctx.moveTo(gx,0);ucctx.lineTo(gx,ucH);ucctx.stroke();
+    ucctx.beginPath();ucctx.moveTo(0,gy);ucctx.lineTo(ucW,gy);ucctx.stroke();
+  }
+  ucctx.strokeStyle='rgba(255,255,255,0.15)';ucctx.lineWidth=1;
+  ucctx.beginPath();ucctx.moveTo(0,ucCY);ucctx.lineTo(ucW,ucCY);ucctx.stroke();
+  ucctx.beginPath();ucctx.moveTo(ucCX,0);ucctx.lineTo(ucCX,ucH);ucctx.stroke();
+  ucctx.strokeStyle='rgba(255,255,255,0.12)';ucctx.lineWidth=1.5;
+  ucctx.beginPath();ucctx.arc(ucCX,ucCY,ucCR,0,Math.PI*2);ucctx.stroke();
+  const px=ucCX+cos*ucCR,py=ucCY-sin*ucCR;
+  const arcR=ucCR*.25;
+  ucctx.beginPath();ucctx.arc(ucCX,ucCY,arcR,0,-a,a<0);ucctx.strokeStyle='#a78bfa';ucctx.lineWidth=2;ucctx.stroke();
+  const amid=a/2;
+  ucctx.fillStyle='#a78bfa';ucctx.font='bold 12px sans-serif';
+  ucctx.textAlign='center';ucctx.textBaseline='middle';
+  ucctx.fillText('θ',ucCX+Math.cos(amid)*arcR*1.5,ucCY-Math.sin(amid)*arcR*1.5);
+  ucctx.beginPath();ucctx.moveTo(ucCX,ucCY);ucctx.lineTo(px,ucCY);ucctx.strokeStyle='#60a5fa';ucctx.lineWidth=2.5;ucctx.stroke();
+  ucctx.fillStyle='#60a5fa';ucctx.font='11px sans-serif';
+  ucctx.textAlign='center';ucctx.textBaseline=sin>=0?'top':'bottom';
+  ucctx.fillText('cos θ',(ucCX+px)/2,ucCY+(sin>=0?5:-5));
+  ucctx.beginPath();ucctx.moveTo(px,ucCY);ucctx.lineTo(px,py);ucctx.strokeStyle='#4ade80';ucctx.lineWidth=2.5;ucctx.stroke();
+  ucctx.fillStyle='#4ade80';ucctx.font='11px sans-serif';
+  ucctx.textAlign=cos>=0?'left':'right';ucctx.textBaseline='middle';
+  ucctx.fillText('sin θ',px+(cos>=0?7:-7),(ucCY+py)/2);
+  if(Math.abs(cos)>.04){
+    const tan=sin/cos,x1=ucCX+ucCR,tanY=ucCY-tan*ucCR;
+    const tanYc=Math.max(4,Math.min(ucH-4,tanY));
+    const clipped=tanYc!==tanY;
+    ucctx.beginPath();ucctx.moveTo(x1,ucCY);ucctx.lineTo(x1,tanYc);
+    ucctx.strokeStyle='#fb7185';ucctx.lineWidth=3;
+    ucctx.setLineDash(clipped?[4,3]:[]);ucctx.stroke();ucctx.setLineDash([]);
+    if(!clipped){
+      ucctx.beginPath();ucctx.moveTo(px,py);ucctx.lineTo(x1,tanYc);
+      ucctx.strokeStyle='rgba(251,113,133,0.3)';ucctx.lineWidth=1;
+      ucctx.setLineDash([3,3]);ucctx.stroke();ucctx.setLineDash([]);
+    }
+    ucctx.strokeStyle='rgba(255,255,255,0.15)';ucctx.lineWidth=1;
+    ucctx.beginPath();ucctx.moveTo(x1,ucCY-4);ucctx.lineTo(x1,ucCY+4);ucctx.stroke();
+    if(!clipped&&Math.abs(tan)<4){
+      ucctx.fillStyle='#fb7185';ucctx.font='11px sans-serif';
+      ucctx.textAlign='left';ucctx.textBaseline='middle';
+      ucctx.fillText('tan θ',x1+7,(ucCY+tanYc)/2);
+    }
+    if(!clipped)drawDot(ucctx,x1,tanYc,'#fb7185',5);
+  }
+  ucctx.fillStyle='rgba(255,255,255,0.25)';ucctx.font='11px sans-serif';ucctx.textAlign='center';ucctx.textBaseline='middle';
+  ucctx.fillText('0°',ucCX+ucCR+18,ucCY);
+  ucctx.fillText('90°',ucCX,ucCY-ucCR-14);
+  ucctx.fillText('180°',ucCX-ucCR-22,ucCY);
+  ucctx.fillText('270°',ucCX,ucCY+ucCR+14);
+  ucctx.beginPath();ucctx.moveTo(ucCX,ucCY);ucctx.lineTo(px,py);
+  ucctx.strokeStyle='rgba(255,255,255,0.3)';ucctx.lineWidth=1.5;ucctx.stroke();
+  drawDot(ucctx,px,py,'#a78bfa',8);
+  ucctx.restore();
+  const wW=ucwv.width/dpr,wH=90;
+  ucwctx.clearRect(0,0,ucwv.width,ucwv.height);ucwctx.save();ucwctx.scale(dpr,dpr);
+  const mid=wH/2,amp=wH*.36;
+  ucwctx.strokeStyle='rgba(255,255,255,0.08)';ucwctx.lineWidth=0.5;
+  ucwctx.beginPath();ucwctx.moveTo(0,mid);ucwctx.lineTo(wW,mid);ucwctx.stroke();
+  [['#60a5fa','cos'],['#4ade80','sin']].forEach(([col,fn])=>{
+    ucwctx.beginPath();
+    for(let px2=0;px2<=wW;px2++){
+      const t=(px2/wW)*Math.PI*2;
+      const y=mid-(fn==='sin'?Math.sin(t):Math.cos(t))*amp;
+      px2===0?ucwctx.moveTo(px2,y):ucwctx.lineTo(px2,y);
+    }
+    ucwctx.strokeStyle=col;ucwctx.lineWidth=1.5;ucwctx.stroke();
+  });
+  const norm=((a%(Math.PI*2))+Math.PI*2)%(Math.PI*2);
+  const xp=(norm/(Math.PI*2))*wW;
+  ucwctx.strokeStyle='rgba(167,139,250,0.4)';ucwctx.lineWidth=1;ucwctx.setLineDash([3,3]);
+  ucwctx.beginPath();ucwctx.moveTo(xp,0);ucwctx.lineTo(xp,wH);ucwctx.stroke();ucwctx.setLineDash([]);
+  [[cos,'#60a5fa'],[sin,'#4ade80']].forEach(([v,c])=>{
+    ucwctx.beginPath();ucwctx.arc(xp,mid-v*amp,4,0,Math.PI*2);
+    ucwctx.fillStyle=c;ucwctx.fill();
+  });
+  ucwctx.font='10px sans-serif';ucwctx.textAlign='left';ucwctx.textBaseline='top';
+  ucwctx.fillStyle='#60a5fa';ucwctx.fillText('cos',4,3);
+  ucwctx.fillStyle='#4ade80';ucwctx.fillText('sin',4,15);
+  ucwctx.restore();
+  const deg2=((a*180/Math.PI)%360+360)%360;
+  document.getElementById('uc-ang').textContent=deg2.toFixed(1)+'°';
+  document.getElementById('uc-cos').textContent=cos.toFixed(3);
+  document.getElementById('uc-sin').textContent=sin.toFixed(3);
+  document.getElementById('uc-tan').textContent=Math.abs(cos)<.01?'∞':(sin/cos).toFixed(3);
+  document.getElementById('uc-slider').value=deg2.toFixed(1);
+  document.getElementById('uc-num').value=deg2.toFixed(1);
+}
+uccv.addEventListener('mousedown',e=>{ucDrag=true;ucAngle=ucPtAngle(e);ucDraw();});
+uccv.addEventListener('mousemove',e=>{if(ucDrag){ucAngle=ucPtAngle(e);ucDraw();}});
+uccv.addEventListener('mouseup',()=>ucDrag=false);
+uccv.addEventListener('mouseleave',()=>ucDrag=false);
+uccv.addEventListener('touchstart',e=>{e.preventDefault();ucDrag=true;ucAngle=ucPtAngle(e);ucDraw();},{passive:false});
+uccv.addEventListener('touchmove',e=>{e.preventDefault();if(ucDrag){ucAngle=ucPtAngle(e);ucDraw();}},{passive:false});
+uccv.addEventListener('touchend',()=>ucDrag=false);
+function ucResize(){
+  const w=uccv.parentElement.offsetWidth-48,h=Math.round(w*.72);
+  ucW=w;ucH=h;ucCX=w/2;ucCY=h/2;ucCR=Math.min(w,h)*.33;
+  uccv.width=w*dpr;uccv.height=h*dpr;uccv.style.width=w+'px';uccv.style.height=h+'px';
+  ucwv.width=w*dpr;ucwv.height=90*dpr;ucwv.style.width=w+'px';ucwv.style.height='90px';
+  ucDraw();
+}
+
+// ─── SINE & COSINE RULE ───────────────────────────────────────
+const sccv=document.getElementById('sc-cv');
+const scctx=sccv.getContext('2d');
+let scW=0,scH=0,scDrag=null,scModeStr='sine';
+// Store vertices by angle on a circle
+let scAngles={A:Math.PI*1.5,B:Math.PI*0.83,C:Math.PI*0.17}; // radians around placement circle
+let scVerts={A:{x:0,y:0},B:{x:0,y:0},C:{x:0,y:0}};
+
+function scRebuildFromAngles(){
+  const r=Math.min(scW,scH)*.31,cx=scW/2,cy=scH/2;
+  scVerts.A={x:cx+Math.cos(scAngles.A)*r,y:cy+Math.sin(scAngles.A)*r};
+  scVerts.B={x:cx+Math.cos(scAngles.B)*r,y:cy+Math.sin(scAngles.B)*r};
+  scVerts.C={x:cx+Math.cos(scAngles.C)*r,y:cy+Math.sin(scAngles.C)*r};
+}
+
+function scSyncAngle(lbl,deg){
+  if(isNaN(deg))return;
+  deg=clamp(parseFloat(deg.toFixed(0)),-180,180);
+  scAngles[lbl]=deg*Math.PI/180;
+  document.getElementById('sc-sl-'+lbl).value=deg;
+  document.getElementById('sc-num-'+lbl).value=deg;
+  scRebuildFromAngles();scDraw();
+}
+function scStepAngle(lbl,d){
+  let cur=Math.round(scAngles[lbl]*180/Math.PI);
+  scSyncAngle(lbl,clamp(cur+d,-180,180));
+}
+function scMode(m){
+  scModeStr=m;
+  document.getElementById('sc-sine').className='tog'+(m==='sine'?' on-sine':'');
+  document.getElementById('sc-cos').className='tog'+(m==='cosine'?' on-cosine':'');
+  document.getElementById('sc-formula').textContent=m==='sine'
+    ?'a / sin(A)  =  b / sin(B)  =  c / sin(C)'
+    :'a² = b² + c² − 2bc · cos(A)';
+  scDraw();
+}
+function scDrawArcAngle(v,p1,p2,col,r,lbl){
+  const a1=Math.atan2(p1.y-v.y,p1.x-v.x);
+  const a2=Math.atan2(p2.y-v.y,p2.x-v.x);
+  let diff=a2-a1;
+  while(diff>Math.PI)diff-=2*Math.PI;while(diff<-Math.PI)diff+=2*Math.PI;
+  scctx.beginPath();scctx.arc(v.x,v.y,r,a1,a1+diff,diff<0);
+  scctx.strokeStyle=col;scctx.lineWidth=1.8;scctx.stroke();
+  const amid=a1+diff/2;
+  scctx.fillStyle=col;scctx.font='bold 11px \'DM Mono\',monospace';
+  scctx.textAlign='center';scctx.textBaseline='middle';
+  scctx.fillText(lbl,v.x+Math.cos(amid)*(r+14),v.y+Math.sin(amid)*(r+14));
+}
+function scSideLabelOffset(p1,p2,lbl,col){
+  const mx=(p1.x+p2.x)/2,my=(p1.y+p2.y)/2;
+  const dx=p2.x-p1.x,dy=p2.y-p1.y,l=Math.hypot(dx,dy);
+  if(l<1)return;
+  const nx=-dy/l,ny=dx/l;
+  const cx=(scVerts.A.x+scVerts.B.x+scVerts.C.x)/3;
+  const cy=(scVerts.A.y+scVerts.B.y+scVerts.C.y)/3;
+  const dot=(cx-mx)*nx+(cy-my)*ny;
+  const s=dot>0?-1:1;
+  scctx.fillStyle=col;scctx.font='bold 13px sans-serif';
+  scctx.textAlign='center';scctx.textBaseline='middle';
+  scctx.fillText(lbl,mx+nx*18*s,my+ny*18*s);
+}
+function scDraw(){
+  scctx.clearRect(0,0,sccv.width,sccv.height);
+  scctx.save();scctx.scale(dpr,dpr);
+  const{A,B,C}=scVerts;
+  const sc=120;
+  const sA=dist(B,C),sB=dist(A,C),sC=dist(A,B);
+  const aA=angleBetween(A,B,C),aB=angleBetween(B,A,C),aC=angleBetween(C,A,B);
+  drawLine(scctx,B,C,'#60a5fa',2.5);
+  drawLine(scctx,A,C,'#4ade80',2.5);
+  drawLine(scctx,A,B,'#fb7185',2.5);
+  const arcR=Math.min(Math.min(sA,sB,sC)*.22,38);
+  scDrawArcAngle(A,B,C,'#60a5fa',arcR,'A');
+  scDrawArcAngle(B,A,C,'#4ade80',arcR,'B');
+  scDrawArcAngle(C,A,B,'#fb7185',arcR,'C');
+  scSideLabelOffset(B,C,'a','#60a5fa');
+  scSideLabelOffset(A,C,'b','#4ade80');
+  scSideLabelOffset(A,B,'c','#fb7185');
+  function vlabel(p,lbl,col){
+    const cx2=(A.x+B.x+C.x)/3,cy2=(A.y+B.y+C.y)/3;
+    const dx=p.x-cx2,dy=p.y-cy2,l=Math.hypot(dx,dy)||1;
+    drawLabel(scctx,lbl,p.x+dx/l*14,p.y+dy/l*14,col,13);
+  }
+  vlabel(A,'A','#60a5fa');vlabel(B,'B','#4ade80');vlabel(C,'C','#fb7185');
+  drawDot(scctx,A.x,A.y,'#60a5fa');
+  drawDot(scctx,B.x,B.y,'#4ade80');
+  drawDot(scctx,C.x,C.y,'#fb7185');
+  if(scModeStr==='sine'){
+    const k=sA/Math.sin(aA);
+    const txt=(!isFinite(k)||isNaN(k))?'—':k.toFixed(2);
+    scctx.fillStyle='rgba(96,165,250,0.7)';scctx.font='12px monospace';
+    scctx.textAlign='center';scctx.textBaseline='bottom';
+    scctx.fillText('a/sin A = b/sin B = c/sin C = '+txt,scW/2,scH-8);
+  }else{
+    const lhs=(sA*sA/sc/sc).toFixed(2);
+    const rhs=((sB*sB+sC*sC-2*sB*sC*Math.cos(aA))/sc/sc).toFixed(2);
+    scctx.fillStyle='rgba(74,222,128,0.7)';scctx.font='12px monospace';
+    scctx.textAlign='center';scctx.textBaseline='bottom';
+    scctx.fillText('a² = '+lhs+'   b²+c²−2bc·cos(A) = '+rhs,scW/2,scH-8);
+  }
+  document.getElementById('sc-A').textContent=degStr(aA)+' / '+(sA/sc).toFixed(2);
+  document.getElementById('sc-B').textContent=degStr(aB)+' / '+(sB/sc).toFixed(2);
+  document.getElementById('sc-C').textContent=degStr(aC)+' / '+(sC/sc).toFixed(2);
+  if(scModeStr==='sine'){
+    const k=sA/Math.sin(aA);
+    document.getElementById('sc-verify').textContent='Raporti sinusit k = '+((isNaN(k)||!isFinite(k))?'—':k.toFixed(3));
+  }else{
+    const lhs=(sA*sA).toFixed(0);
+    const rhs=(sB*sB+sC*sC-2*sB*sC*Math.cos(aA)).toFixed(0);
+    document.getElementById('sc-verify').textContent='a² = '+lhs+' ≈ b²+c²−2bc·cos(A) = '+rhs;
+  }
+  scctx.restore();
+}
+function scPt(e){
+  const r=sccv.getBoundingClientRect(),cl=e.touches?e.touches[0]:e;
+  return{x:(cl.clientX-r.left)*(scW/r.width),y:(cl.clientY-r.top)*(scH/r.height)};
+}
+function scHit(p){for(const k of['A','B','C'])if(dist(p,scVerts[k])<22)return k;return null;}
+sccv.addEventListener('mousedown',e=>{e.preventDefault();scDrag=scHit(scPt(e));if(scDrag)sccv.style.cursor='grabbing';});
+sccv.addEventListener('mousemove',e=>{
+  e.preventDefault();const p=scPt(e);
+  if(!scDrag){sccv.style.cursor=scHit(p)?'grab':'default';return;}
+  const pad=20;
+  scVerts[scDrag]={x:clamp(p.x,pad,scW-pad),y:clamp(p.y,pad,scH-pad)};
+  // sync angles from drag
+  const r=Math.min(scW,scH)*.31,cx=scW/2,cy=scH/2;
+  const vp=scVerts[scDrag];
+  scAngles[scDrag]=Math.atan2(vp.y-cy,vp.x-cx);
+  const adeg=Math.round(scAngles[scDrag]*180/Math.PI);
+  document.getElementById('sc-sl-'+scDrag).value=adeg;
+  document.getElementById('sc-num-'+scDrag).value=adeg;
+  scDraw();
+});
+sccv.addEventListener('mouseup',()=>{scDrag=null;sccv.style.cursor='default';});
+sccv.addEventListener('mouseleave',()=>{scDrag=null;});
+sccv.addEventListener('touchstart',e=>{e.preventDefault();scDrag=scHit(scPt(e));},{passive:false});
+sccv.addEventListener('touchmove',e=>{
+  e.preventDefault();if(!scDrag)return;
+  const p=scPt(e);const pad=20;
+  scVerts[scDrag]={x:clamp(p.x,pad,scW-pad),y:clamp(p.y,pad,scH-pad)};
+  const cx=scW/2,cy=scH/2;
+  scAngles[scDrag]=Math.atan2(scVerts[scDrag].y-cy,scVerts[scDrag].x-cx);
+  const adeg=Math.round(scAngles[scDrag]*180/Math.PI);
+  document.getElementById('sc-sl-'+scDrag).value=adeg;
+  document.getElementById('sc-num-'+scDrag).value=adeg;
+  scDraw();
+},{passive:false});
+sccv.addEventListener('touchend',()=>{scDrag=null;});
+function scResize(){
+  const sz=setupCanvas(sccv,Math.round((sccv.parentElement.offsetWidth-48)*0.6));
+  scW=sz.w;scH=sz.h;scRebuildFromAngles();scDraw();
+}
+
+// ─── CIRCLE THEOREMS ──────────────────────────────────────────
+const ctcv=document.getElementById('ct-cv');
+const ctctx=ctcv.getContext('2d');
+let ctW=0,ctH=0,ctCX=0,ctCY=0,ctCR=0,ctTheorem=0,ctDrag=null;
+let ctPts={};
+
+const ctThms=[
+  {title:'Këndi në qendër është dy herë këndi në rrethësi',hint:'Zvarrit A, B ose P',
+   keys:['A','B','P'],labels:['Pozicioni A (°)','Pozicioni B (°)','Pozicioni P (°)'],defaults:[-115,46,154],colors:['#fb7185','#4ade80','#60a5fa']},
+  {title:'Këndet në të njëjtin segment janë të barabarta',hint:'Zvarrit P ose Q — këndet mbeten të barabarta',
+   keys:['A','B','P1','P2'],labels:['Pozicioni A (°)','Pozicioni B (°)','Pozicioni P (°)','Pozicioni Q (°)'],defaults:[-126,40,101,171],colors:['#60a5fa','#4ade80','#a78bfa','#fb7185']},
+  {title:'Këndi në gjysëmrreth është gjithmonë 90°',hint:'Zvarrit P rreth gjysëmrrethit',
+   keys:['P'],labels:['Pozicioni P (°)'],defaults:[43],colors:['#60a5fa']},
+  {title:'Këndet e kundërta në katërkëndësh ciklik mblidhen 180°',hint:'Zvarrit çdo kulm',
+   keys:['A','B','C','D'],labels:['Pozicioni A (°)','Pozicioni B (°)','Pozicioni C (°)','Pozicioni D (°)'],defaults:[-115,34,43,74],colors:['#a78bfa','#4ade80','#60a5fa','#fb7185']},
+  {title:'Tangjentja takon rrezen në pikërisht 90°',hint:'Zvarrit P për të lëvizur pikën e tangjentës',
+   keys:['P'],labels:['Pozicioni P (°)'],defaults:[20],colors:['#a78bfa']},
+  {title:'Dy tangjente nga pikë e jashtme janë të barabarta',hint:'Zvarrit T (pikën e jashtme)',
+   keys:['Tangle','Tdist'],labels:['Drejtimi i T (°)','Largësia e T'],defaults:[0,1.75],colors:['#fbbf24','#fbbf24']},
+];
+
+function ctInit(){
+  const thm=ctThms[ctTheorem];
+  ctPts={};
+  thm.keys.forEach((k,i)=>{ctPts[k]=thm.defaults[i];});
+  ctBuildControls();
+}
+
+function ctBuildControls(){
+  const thm=ctThms[ctTheorem];
+  const container=document.getElementById('ct-controls');
+  let html='';
+  thm.keys.forEach((k,i)=>{
+    const col=thm.colors[i];
+    const lbl=thm.labels[i];
+    const isDist=k==='Tdist';
+    const mn=isDist?1.1:-180;
+    const mx=isDist?3.5:180;
+    const step=isDist?0.05:1;
+    const val=ctPts[k];
+    html+=`<div class="ctrl-row">
+      <span class="ctrl-label" style="color:${col}">${lbl}</span>
+      <input type="range" min="${mn}" max="${mx}" step="${step}" value="${val}" id="ct-sl-${k}" oninput="ctSyncCtrl('${k}',parseFloat(this.value))">
+      <div class="num-wrap">
+        <button class="arr-btn" onclick="ctStepCtrl('${k}',${-step})">‹</button>
+        <input type="number" min="${mn}" max="${mx}" step="${step}" value="${val}" id="ct-num-${k}" oninput="ctSyncCtrl('${k}',parseFloat(this.value))">
+        <button class="arr-btn" onclick="ctStepCtrl('${k}',${step})">›</button>
+      </div>
+    </div>`;
+  });
+  container.innerHTML=html;
+}
+
+function ctStepCtrl(k,d){
+  const thm=ctThms[ctTheorem];
+  const idx=thm.keys.indexOf(k);
+  const isDist=k==='Tdist';
+  const mn=isDist?1.1:-180;
+  const mx=isDist?3.5:180;
+  const nv=parseFloat(clamp(ctPts[k]+d,mn,mx).toFixed(2));
+  ctSyncCtrl(k,nv);
+}
+function ctSyncCtrl(k,v){
+  if(isNaN(v))return;
+  const thm=ctThms[ctTheorem];
+  const idx=thm.keys.indexOf(k);
+  const isDist=k==='Tdist';
+  const mn=isDist?1.1:-180;
+  const mx=isDist?3.5:180;
+  v=parseFloat(clamp(v,mn,mx).toFixed(2));
+  ctPts[k]=v;
+  const sl=document.getElementById('ct-sl-'+k);
+  const nm=document.getElementById('ct-num-'+k);
+  if(sl)sl.value=v;
+  if(nm)nm.value=v;
+  ctDraw();
+}
+
+function ctSet(n){
+  ctTheorem=n;
+  document.querySelectorAll('.thm-tab').forEach((t,i)=>t.className='thm-tab'+(i===n?' on':''));
+  document.getElementById('ct-box').textContent=ctThms[n].title;
+  document.getElementById('ct-hint').textContent=ctThms[n].hint;
+  ctInit();ctDraw();
+}
+
+// convert stored degree to angle in radians for ctOC
+function ctPtAngle(k){return ctPts[k]*Math.PI/180;}
+function ctOC(a){return ptOnCircle(ctCX,ctCY,ctCR,a);}
+
+function ctDrawArcAngle(v,p1,p2,col,r,lbl){
+  const a1=Math.atan2(p1.y-v.y,p1.x-v.x);
+  const a2=Math.atan2(p2.y-v.y,p2.x-v.x);
+  let diff=a2-a1;
+  while(diff>Math.PI)diff-=2*Math.PI;while(diff<-Math.PI)diff+=2*Math.PI;
+  ctctx.beginPath();ctctx.arc(v.x,v.y,r,a1,a1+diff,diff<0);
+  ctctx.strokeStyle=col;ctctx.lineWidth=1.5;ctctx.stroke();
+  const amid=a1+diff/2;
+  ctctx.fillStyle=col;ctctx.font='bold 11px sans-serif';
+  ctctx.textAlign='center';ctctx.textBaseline='middle';
+  ctctx.fillText(lbl,v.x+Math.cos(amid)*(r+12),v.y+Math.sin(amid)*(r+12));
+}
+function ctOuterLabel(p,lbl,col){
+  const dx=p.x-ctCX,dy=p.y-ctCY,l=Math.hypot(dx,dy)||1;
+  drawLabel(ctctx,lbl,p.x+dx/l*14,p.y+dy/l*14,col);
+}
+
+function ctDraw(){
+  ctctx.clearRect(0,0,ctcv.width,ctcv.height);
+  ctctx.save();ctctx.scale(dpr,dpr);
+  ctctx.strokeStyle='rgba(255,255,255,0.1)';ctctx.lineWidth=1.5;
+  ctctx.beginPath();ctctx.arc(ctCX,ctCY,ctCR,0,Math.PI*2);ctctx.stroke();
+  const O={x:ctCX,y:ctCY};
+
+  if(ctTheorem===0){
+    const A=ctOC(ctPtAngle('A')),B=ctOC(ctPtAngle('B')),P=ctOC(ctPtAngle('P'));
+    drawLine(ctctx,O,A,'#a78bfa',2);drawLine(ctctx,O,B,'#a78bfa',2);
+    drawLine(ctctx,P,A,'#60a5fa',2);drawLine(ctctx,P,B,'#60a5fa',2);
+    const arcR=Math.min(ctCR*.28,36);
+    ctDrawArcAngle(O,A,B,'#a78bfa',arcR,'2θ');
+    ctDrawArcAngle(P,A,B,'#60a5fa',arcR*.8,'θ');
+    drawDot(ctctx,A.x,A.y,'#fb7185');drawDot(ctctx,B.x,B.y,'#4ade80');
+    drawDot(ctctx,P.x,P.y,'#60a5fa');drawDot(ctctx,ctCX,ctCY,'#a78bfa',5);
+    ctOuterLabel(A,'A','#fb7185');ctOuterLabel(B,'B','#4ade80');ctOuterLabel(P,'P','#60a5fa');
+    drawLabel(ctctx,'O',ctCX-12,ctCY-10,'#a78bfa');
+    const aC=angleBetween(O,A,B),aP=angleBetween(P,A,B);
+    document.getElementById('ct-lbl0').textContent='Këndi në qendër ∠AOB';
+    document.getElementById('ct-lbl1').textContent='Këndi në rrethësi ∠APB';
+    document.getElementById('ct-val0').textContent=degStr(aC);
+    document.getElementById('ct-val1').textContent=degStr(aP)+' (gjysma)';
+
+  }else if(ctTheorem===1){
+    const A=ctOC(ctPtAngle('A')),B=ctOC(ctPtAngle('B'));
+    const P1=ctOC(ctPtAngle('P1')),P2=ctOC(ctPtAngle('P2'));
+    drawLine(ctctx,A,B,'rgba(255,255,255,0.15)',1,[4,3]);
+    drawLine(ctctx,P1,A,'#a78bfa',2);drawLine(ctctx,P1,B,'#a78bfa',2);
+    drawLine(ctctx,P2,A,'#fb7185',2);drawLine(ctctx,P2,B,'#fb7185',2);
+    const arcR=Math.min(ctCR*.22,30);
+    ctDrawArcAngle(P1,A,B,'#a78bfa',arcR,'θ');
+    ctDrawArcAngle(P2,A,B,'#fb7185',arcR,'θ');
+    drawDot(ctctx,A.x,A.y,'#60a5fa');drawDot(ctctx,B.x,B.y,'#4ade80');
+    drawDot(ctctx,P1.x,P1.y,'#a78bfa');drawDot(ctctx,P2.x,P2.y,'#fb7185');
+    ctOuterLabel(A,'A','#60a5fa');ctOuterLabel(B,'B','#4ade80');
+    ctOuterLabel(P1,'P','#a78bfa');ctOuterLabel(P2,'Q','#fb7185');
+    const a1=angleBetween(P1,A,B),a2=angleBetween(P2,A,B);
+    document.getElementById('ct-lbl0').textContent='∠APB';
+    document.getElementById('ct-lbl1').textContent='∠AQB';
+    document.getElementById('ct-val0').textContent=degStr(a1);
+    document.getElementById('ct-val1').textContent=degStr(a2)+' (të barabarta)';
+
+  }else if(ctTheorem===2){
+    const A=ctOC(Math.PI),B=ctOC(0),P=ctOC(ctPtAngle('P'));
+    drawLine(ctctx,A,B,'#a78bfa',2);
+    drawLine(ctctx,P,A,'#60a5fa',2);drawLine(ctctx,P,B,'#4ade80',2);
+    ctDrawArcAngle(P,A,B,'#fb7185',Math.min(ctCR*.22,28),'θ');
+    const uPA={x:(A.x-P.x),y:(A.y-P.y)},lPA=Math.hypot(uPA.x,uPA.y);
+    const uPB={x:(B.x-P.x),y:(B.y-P.y)},lPB=Math.hypot(uPB.x,uPB.y);
+    if(lPA>1&&lPB>1){
+      const s=12;
+      const na={x:uPA.x/lPA*s,y:uPA.y/lPA*s};
+      const nb={x:uPB.x/lPB*s,y:uPB.y/lPB*s};
+      ctctx.beginPath();
+      ctctx.moveTo(P.x+na.x,P.y+na.y);
+      ctctx.lineTo(P.x+na.x+nb.x,P.y+na.y+nb.y);
+      ctctx.lineTo(P.x+nb.x,P.y+nb.y);
+      ctctx.strokeStyle='#fb7185';ctctx.lineWidth=1.5;ctctx.stroke();
+    }
+    drawDot(ctctx,A.x,A.y,'#a78bfa');drawDot(ctctx,B.x,B.y,'#a78bfa');
+    drawDot(ctctx,P.x,P.y,'#60a5fa');drawDot(ctctx,ctCX,ctCY,'#a78bfa',4);
+    ctOuterLabel(A,'A','#a78bfa');ctOuterLabel(B,'B','#a78bfa');ctOuterLabel(P,'P','#60a5fa');
+    document.getElementById('ct-lbl0').textContent='∠APB (në gjysëmrreth)';
+    document.getElementById('ct-lbl1').textContent='Diametri AB';
+    document.getElementById('ct-val0').textContent=degStr(angleBetween(P,A,B))+' ≈ 90°';
+    document.getElementById('ct-val1').textContent='Gjithmonë 90°';
+
+  }else if(ctTheorem===3){
+    const A=ctOC(ctPtAngle('A')),B=ctOC(ctPtAngle('B'));
+    const C=ctOC(ctPtAngle('C')),D=ctOC(ctPtAngle('D'));
+    ctctx.beginPath();ctctx.moveTo(A.x,A.y);ctctx.lineTo(B.x,B.y);
+    ctctx.lineTo(C.x,C.y);ctctx.lineTo(D.x,D.y);ctctx.closePath();
+    ctctx.fillStyle='rgba(74,222,128,0.05)';ctctx.fill();
+    ctctx.strokeStyle='rgba(255,255,255,0.2)';ctctx.lineWidth=1;ctctx.stroke();
+    const aA=angleBetween(A,D,B),aB=angleBetween(B,A,C);
+    const aC2=angleBetween(C,D,B),aD=angleBetween(D,A,C);
+    const ar=Math.min(ctCR*.18,24);
+    ctDrawArcAngle(A,D,B,'#a78bfa',ar,'A');ctDrawArcAngle(C,D,B,'#60a5fa',ar,'C');
+    ctDrawArcAngle(B,A,C,'#4ade80',ar,'B');ctDrawArcAngle(D,A,C,'#fb7185',ar,'D');
+    drawDot(ctctx,A.x,A.y,'#a78bfa');drawDot(ctctx,B.x,B.y,'#4ade80');
+    drawDot(ctctx,C.x,C.y,'#60a5fa');drawDot(ctctx,D.x,D.y,'#fb7185');
+    ctOuterLabel(A,'A','#a78bfa');ctOuterLabel(B,'B','#4ade80');
+    ctOuterLabel(C,'C','#60a5fa');ctOuterLabel(D,'D','#fb7185');
+    document.getElementById('ct-lbl0').textContent='∠A + ∠C';
+    document.getElementById('ct-lbl1').textContent='∠B + ∠D';
+    document.getElementById('ct-val0').textContent=degStr(aA+aC2);
+    document.getElementById('ct-val1').textContent=degStr(aB+aD)+' (të dyja 180°)';
+
+  }else if(ctTheorem===4){
+    const P=ctOC(ctPtAngle('P'));
+    const rx=P.x-ctCX,ry=P.y-ctCY;
+    const tlen=ctCR*1.1;
+    const T1={x:P.x-ry/ctCR*tlen,y:P.y+rx/ctCR*tlen};
+    const T2={x:P.x+ry/ctCR*tlen,y:P.y-rx/ctCR*tlen};
+    drawLine(ctctx,T1,T2,'#60a5fa',2.5);
+    drawLine(ctctx,O,P,'#a78bfa',2);
+    const ur={x:rx/ctCR,y:ry/ctCR},ut={x:-ry/ctCR,y:rx/ctCR};
+    const s=13;
+    ctctx.beginPath();
+    ctctx.moveTo(P.x+ur.x*s,P.y+ur.y*s);
+    ctctx.lineTo(P.x+ur.x*s+ut.x*s,P.y+ur.y*s+ut.y*s);
+    ctctx.lineTo(P.x+ut.x*s,P.y+ut.y*s);
+    ctctx.strokeStyle='#fb7185';ctctx.lineWidth=1.5;ctctx.stroke();
+    drawDot(ctctx,P.x,P.y,'#a78bfa');drawDot(ctctx,ctCX,ctCY,'#a78bfa',5);
+    ctOuterLabel(P,'P','#a78bfa');
+    drawLabel(ctctx,'O',ctCX+12,ctCY+10,'#a78bfa');
+    ctctx.fillStyle='#60a5fa';ctctx.font='11px sans-serif';
+    ctctx.textAlign='center';ctctx.textBaseline='middle';
+    ctctx.fillText('tangjente',(T1.x+T2.x)/2,(T1.y+T2.y)/2-14);
+    document.getElementById('ct-lbl0').textContent='Rrezja OP';
+    document.getElementById('ct-lbl1').textContent='Këndi në P';
+    document.getElementById('ct-val0').textContent='⊥ me tangjenten';
+    document.getElementById('ct-val1').textContent='Gjithmonë 90°';
+
+  }else if(ctTheorem===5){
+    const Tangle=ctPts['Tangle']*Math.PI/180;
+    const Tdist=ctPts['Tdist'];
+    const Tx=ctCX+Math.cos(Tangle)*Tdist*ctCR;
+    const Ty=ctCY+Math.sin(Tangle)*Tdist*ctCR;
+    const T={x:Tx,y:Ty};
+    const d=Math.hypot(T.x-ctCX,T.y-ctCY);
+    if(d>ctCR+1){
+      const baseAngle=Math.atan2(T.y-ctCY,T.x-ctCX);
+      const alpha=Math.asin(Math.min(1,ctCR/d));
+      const P1=ctOC(baseAngle+Math.PI-alpha);
+      const P2=ctOC(baseAngle+Math.PI+alpha);
+      drawLine(ctctx,T,P1,'#60a5fa',2.5);
+      drawLine(ctctx,T,P2,'#4ade80',2.5);
+      drawLine(ctctx,O,P1,'#a78bfa',1.2,[3,3]);
+      drawLine(ctctx,O,P2,'#a78bfa',1.2,[3,3]);
+      function ctRAS(P,towardPt,col){
+        const rx2=P.x-ctCX,ry2=P.y-ctCY,rlen=Math.hypot(rx2,ry2);
+        if(rlen<1)return;
+        const ur2={x:rx2/rlen,y:ry2/rlen},ut2={x:-ry2/rlen,y:rx2/rlen};
+        const s2=10;
+        const toT={x:towardPt.x-P.x,y:towardPt.y-P.y};
+        const sign=(toT.x*ut2.x+toT.y*ut2.y)>0?1:-1;
+        ctctx.beginPath();
+        ctctx.moveTo(P.x+ur2.x*s2,P.y+ur2.y*s2);
+        ctctx.lineTo(P.x+ur2.x*s2+ut2.x*s2*sign,P.y+ur2.y*s2+ut2.y*s2*sign);
+        ctctx.lineTo(P.x+ut2.x*s2*sign,P.y+ut2.y*s2*sign);
+        ctctx.strokeStyle=col;ctctx.lineWidth=1.2;ctctx.stroke();
+      }
+      ctRAS(P1,T,'#fb7185');ctRAS(P2,T,'#fb7185');
+      drawDot(ctctx,P1.x,P1.y,'#60a5fa',6);drawDot(ctctx,P2.x,P2.y,'#4ade80',6);
+      drawDot(ctctx,T.x,T.y,'#fbbf24',8);drawDot(ctctx,ctCX,ctCY,'#a78bfa',4);
+      ctOuterLabel(P1,'P','#60a5fa');ctOuterLabel(P2,'Q','#4ade80');
+      const tdx=T.x-ctCX,tdy=T.y-ctCY,tl2=Math.hypot(tdx,tdy)||1;
+      drawLabel(ctctx,'T',T.x+tdx/tl2*14,T.y+tdy/tl2*14,'#fbbf24');
+      drawLabel(ctctx,'O',ctCX+10,ctCY+10,'#a78bfa');
+      const l1=dist(T,P1),l2v=dist(T,P2);
+      const m1x=(T.x+P1.x)/2,m1y=(T.y+P1.y)/2;
+      const m2x=(T.x+P2.x)/2,m2y=(T.y+P2.y)/2;
+      const perp1={x:-(P1.y-T.y)/l1,y:(P1.x-T.x)/l1};
+      const perp2={x:-(P2.y-T.y)/l2v,y:(P2.x-T.x)/l2v};
+      ctctx.fillStyle='#60a5fa';ctctx.font='bold 11px \'DM Mono\',monospace';
+      ctctx.textAlign='center';ctctx.textBaseline='middle';
+      ctctx.fillText((l1/ctCR*50).toFixed(1),m1x+perp1.x*12,m1y+perp1.y*12);
+      ctctx.fillStyle='#4ade80';
+      ctctx.fillText((l2v/ctCR*50).toFixed(1),m2x+perp2.x*12,m2y+perp2.y*12);
+      document.getElementById('ct-lbl0').textContent='Gjatësia TP';
+      document.getElementById('ct-lbl1').textContent='Gjatësia TQ';
+      document.getElementById('ct-val0').textContent=(l1/ctCR*50).toFixed(2)+' njësi';
+      document.getElementById('ct-val1').textContent=(l2v/ctCR*50).toFixed(2)+' njësi (të barabarta)';
+    }
+  }
+  ctctx.restore();
+}
+
+// CT drag: sync back to sliders
+function ctPtInCv(e){
+  const r=ctcv.getBoundingClientRect(),cl=e.touches?e.touches[0]:e;
+  return{x:(cl.clientX-r.left)*(ctW/r.width),y:(cl.clientY-r.top)*(ctH/r.height)};
+}
+function ctDragHit(p){
+  if(ctTheorem===5){
+    const Tangle=ctPts['Tangle']*Math.PI/180;
+    const Tdist=ctPts['Tdist'];
+    const Tx=ctCX+Math.cos(Tangle)*Tdist*ctCR;
+    const Ty=ctCY+Math.sin(Tangle)*Tdist*ctCR;
+    if(Math.hypot(p.x-Tx,p.y-Ty)<22)return'T5';return null;
+  }
+  const thm=ctThms[ctTheorem];
+  for(const k of thm.keys){
+    const pt=ctOC(ctPtAngle(k));
+    if(Math.hypot(p.x-pt.x,p.y-pt.y)<22)return k;
+  }
+  return null;
+}
+function ctDragMove(p){
+  if(!ctDrag)return;
+  if(ctTheorem===5&&ctDrag==='T5'){
+    const dx=p.x-ctCX,dy=p.y-ctCY;
+    const ang=Math.round(Math.atan2(dy,dx)*180/Math.PI);
+    const dst=parseFloat(clamp(Math.hypot(dx,dy)/ctCR,1.1,3.5).toFixed(2));
+    ctPts['Tangle']=ang;ctPts['Tdist']=dst;
+    const sl1=document.getElementById('ct-sl-Tangle');const nm1=document.getElementById('ct-num-Tangle');
+    const sl2=document.getElementById('ct-sl-Tdist');const nm2=document.getElementById('ct-num-Tdist');
+    if(sl1)sl1.value=ang;if(nm1)nm1.value=ang;
+    if(sl2)sl2.value=dst;if(nm2)nm2.value=dst;
+  }else{
+    const adeg=Math.round(Math.atan2(p.y-ctCY,p.x-ctCX)*180/Math.PI);
+    ctPts[ctDrag]=parseFloat(clamp(adeg,-180,180).toFixed(0));
+    const sl=document.getElementById('ct-sl-'+ctDrag);
+    const nm=document.getElementById('ct-num-'+ctDrag);
+    if(sl)sl.value=ctPts[ctDrag];if(nm)nm.value=ctPts[ctDrag];
+  }
+  ctDraw();
+}
+ctcv.addEventListener('mousedown',e=>{e.preventDefault();ctDrag=ctDragHit(ctPtInCv(e));if(ctDrag)ctcv.style.cursor='grabbing';});
+ctcv.addEventListener('mousemove',e=>{e.preventDefault();const p=ctPtInCv(e);if(!ctDrag){ctcv.style.cursor=ctDragHit(p)?'grab':'default';return;}ctDragMove(p);});
+ctcv.addEventListener('mouseup',()=>{ctDrag=null;ctcv.style.cursor='default';});
+ctcv.addEventListener('mouseleave',()=>{ctDrag=null;});
+ctcv.addEventListener('touchstart',e=>{e.preventDefault();ctDrag=ctDragHit(ctPtInCv(e));},{passive:false});
+ctcv.addEventListener('touchmove',e=>{e.preventDefault();if(!ctDrag)return;ctDragMove(ctPtInCv(e));},{passive:false});
+ctcv.addEventListener('touchend',()=>{ctDrag=null;});
+
+function ctResize(){
+  const w=ctcv.parentElement.offsetWidth-48,h=Math.round(w*.75);
+  ctW=w;ctH=h;ctCX=w/2;ctCY=h/2;ctCR=Math.min(w,h)*.32;
+  ctcv.width=w*dpr;ctcv.height=h*dpr;
+  ctcv.style.width=w+'px';ctcv.style.height=h+'px';
+  ctDraw();
+}
+
+// ─── INIT ─────────────────────────────────────────────────────
+let resizeT=null;
+window.addEventListener('resize',()=>{
+  clearTimeout(resizeT);
+  resizeT=setTimeout(()=>{qResize();pyResize();ucResize();scResize();ctResize();},150);
+});
+setTimeout(()=>{
+  qResize();pyResize();ucResize();scResize();
+  ctInit();ctResize();
+  qUpdateInfo(1,0,0);
+},120);
+</script>
+</body>
+</html>
