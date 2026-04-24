@@ -469,6 +469,10 @@
           min-width: 44px;
         }
       }
+      #int-cv {
+        touch-action: none;
+        pointer-events: all;
+      }
     </style>
   </head>
   <body>
@@ -1068,7 +1072,9 @@
         </div>
         <div class="ctrl-group">
           <div class="ctrl-row">
-            <span class="ctrl-label" style="color: var(--blue)">Pozicioni i kulmit A</span>
+            <span class="ctrl-label" style="color: var(--blue)"
+              >Pozicioni i kulmit A</span
+            >
             <input
               type="range"
               min="-180"
@@ -1093,7 +1099,9 @@
             </div>
           </div>
           <div class="ctrl-row">
-            <span class="ctrl-label" style="color: var(--green)">Pozicioni i kulmit B</span>
+            <span class="ctrl-label" style="color: var(--green)"
+              >Pozicioni i kulmit B</span
+            >
             <input
               type="range"
               min="-180"
@@ -1118,7 +1126,9 @@
             </div>
           </div>
           <div class="ctrl-row">
-            <span class="ctrl-label" style="color: var(--coral)">Pozicioni i kulmit C</span>
+            <span class="ctrl-label" style="color: var(--coral)"
+              >Pozicioni i kulmit C</span
+            >
             <input
               type="range"
               min="-180"
@@ -1383,451 +1393,208 @@
 
     <!-- ══════════════════ 07 INTEGRAL ══════════════════ -->
     <div class="section" id="integral">
-      <div class="section-header">
-        <span class="section-num">07</span>
-        <span class="section-title">Integrali i Caktuar</span>
-        <span class="section-tag tag-calculus">Kalkulus</span>
+  <div class="section-header">
+    <span class="section-num">07</span>
+    <span class="section-title">Integrali i Caktuar</span>
+    <span class="section-tag tag-calculus">Kalkulus</span>
+  </div>
+  <div class="card">
+    <div class="card-desc">
+      Shikoni sipërfaqen nën kurbën duke lëvizur kufirin x. Jepni
+      koeficientët e ekuacionit kuadratik ose kubik dhe eksploroni si
+      ndryshon sipërfaqja.
+    </div>
+    <div class="toggle-row">
+      <div class="tog on-sine" id="int-q-btn" onclick="intSetMode('quad')">
+        Kuadratik ax²+bx+c
       </div>
-      <div class="card">
-        <div class="card-desc">
-          Shikoni sipërfaqen nën kurbën duke lëvizur kufirin x. Jepni
-          koeficientët e ekuacionit kuadratik ose kubik dhe eksploroni si
-          ndryshon sipërfaqja.
+      <div class="tog" id="int-k-btn" onclick="intSetMode('cubic')">
+        Kubik ax³+bx²+cx+d
+      </div>
+    </div>
+    <div class="formula-display" id="int-formula">∫ x² dx</div>
+    <div class="ctrl-group" id="int-coef-ctrls">
+      <div class="ctrl-row">
+        <span class="ctrl-label" style="color: var(--blue)">a</span>
+        <input type="range" min="-5" max="5" step="0.1" value="1" id="int-sl-a" oninput="intCoefSyncFromSlider('a', parseFloat(this.value))" />
+        <div class="num-wrap">
+          <button class="arr-btn" onclick="intCoefStep('a', -0.1)">‹</button>
+          <input type="number" min="-5" max="5" step="0.1" value="1" id="int-num-a" oninput="intCoefSyncFromNum('a', parseFloat(this.value))" />
+          <button class="arr-btn" onclick="intCoefStep('a', 0.1)">›</button>
         </div>
-        <div class="toggle-row">
-          <div class="tog on-sine" id="int-q-btn" onclick="intSetMode('quad')">
-            Kuadratik ax²+bx+c
-          </div>
-          <div class="tog" id="int-k-btn" onclick="intSetMode('cubic')">
-            Kubik ax³+bx²+cx+d
-          </div>
+      </div>
+      <div class="ctrl-row">
+        <span class="ctrl-label" style="color: var(--green)">b</span>
+        <input type="range" min="-5" max="5" step="0.1" value="0" id="int-sl-b" oninput="intCoefSyncFromSlider('b', parseFloat(this.value))" />
+        <div class="num-wrap">
+          <button class="arr-btn" onclick="intCoefStep('b', -0.1)">‹</button>
+          <input type="number" min="-5" max="5" step="0.1" value="0" id="int-num-b" oninput="intCoefSyncFromNum('b', parseFloat(this.value))" />
+          <button class="arr-btn" onclick="intCoefStep('b', 0.1)">›</button>
         </div>
-        <div class="formula-display" id="int-formula">∫ x² dx</div>
-        <div class="ctrl-group" id="int-coef-ctrls">
-          <div class="ctrl-row">
-            <span class="ctrl-label" style="color: var(--blue)">a</span>
-            <input
-              type="range"
-              min="-5"
-              max="5"
-              step="0.1"
-              value="1"
-              id="int-sl-a"
-              oninput="intCoefSync()"
-            />
-            <div class="num-wrap">
-              <button class="arr-btn" onclick="intCoefStep('a', -0.1)">
-                ‹
-              </button>
-              <input
-                type="number"
-                min="-5"
-                max="5"
-                step="0.1"
-                value="1"
-                id="int-num-a"
-                oninput="intCoefSync()"
-              />
-              <button class="arr-btn" onclick="intCoefStep('a', 0.1)">›</button>
-            </div>
-          </div>
-          <div class="ctrl-row">
-            <span class="ctrl-label" style="color: var(--green)">b</span>
-            <input
-              type="range"
-              min="-5"
-              max="5"
-              step="0.1"
-              value="0"
-              id="int-sl-b"
-              oninput="intCoefSync()"
-            />
-            <div class="num-wrap">
-              <button class="arr-btn" onclick="intCoefStep('b', -0.1)">
-                ‹
-              </button>
-              <input
-                type="number"
-                min="-5"
-                max="5"
-                step="0.1"
-                value="0"
-                id="int-num-b"
-                oninput="intCoefSync()"
-              />
-              <button class="arr-btn" onclick="intCoefStep('b', 0.1)">›</button>
-            </div>
-          </div>
-          <div class="ctrl-row">
-            <span class="ctrl-label" style="color: var(--coral)">c</span>
-            <input
-              type="range"
-              min="-5"
-              max="5"
-              step="0.1"
-              value="0"
-              id="int-sl-c"
-              oninput="intCoefSync()"
-            />
-            <div class="num-wrap">
-              <button class="arr-btn" onclick="intCoefStep('c', -0.1)">
-                ‹
-              </button>
-              <input
-                type="number"
-                min="-5"
-                max="5"
-                step="0.1"
-                value="0"
-                id="int-num-c"
-                oninput="intCoefSync()"
-              />
-              <button class="arr-btn" onclick="intCoefStep('c', 0.1)">›</button>
-            </div>
-          </div>
-          <div class="ctrl-row" id="int-d-row" style="display: none">
-            <span class="ctrl-label" style="color: var(--amber)">d</span>
-            <input
-              type="range"
-              min="-5"
-              max="5"
-              step="0.1"
-              value="0"
-              id="int-sl-d"
-              oninput="intCoefSync()"
-            />
-            <div class="num-wrap">
-              <button class="arr-btn" onclick="intCoefStep('d', -0.1)">
-                ‹
-              </button>
-              <input
-                type="number"
-                min="-5"
-                max="5"
-                step="0.1"
-                value="0"
-                id="int-num-d"
-                oninput="intCoefSync()"
-              />
-              <button class="arr-btn" onclick="intCoefStep('d', 0.1)">›</button>
-            </div>
-          </div>
+      </div>
+      <div class="ctrl-row">
+        <span class="ctrl-label" style="color: var(--coral)">c</span>
+        <input type="range" min="-5" max="5" step="0.1" value="0" id="int-sl-c" oninput="intCoefSyncFromSlider('c', parseFloat(this.value))" />
+        <div class="num-wrap">
+          <button class="arr-btn" onclick="intCoefStep('c', -0.1)">‹</button>
+          <input type="number" min="-5" max="5" step="0.1" value="0" id="int-num-c" oninput="intCoefSyncFromNum('c', parseFloat(this.value))" />
+          <button class="arr-btn" onclick="intCoefStep('c', 0.1)">›</button>
         </div>
-        <div style="margin-bottom: 10px">
-          <div
-            style="
-              font-family: &quot;DM Mono&quot;, monospace;
-              font-size: 11px;
-              color: var(--text3);
-              margin-bottom: 6px;
-            "
-          >
-            Kufiri x (tërhiqni pikën portokalli/jeshile)
-          </div>
-          <div class="ctrl-row">
-            <span class="ctrl-label" style="color: var(--amber)">a (nga)</span>
-            <input
-              type="range"
-              min="-10"
-              max="10"
-              step="0.1"
-              value="-2"
-              id="int-sl-from"
-              oninput="intLimitSync()"
-            />
-            <div class="num-wrap">
-              <button class="arr-btn" onclick="intLimitStep('from', -0.1)">
-                ‹
-              </button>
-              <input
-                type="number"
-                min="-10"
-                max="10"
-                step="0.1"
-                value="-2"
-                id="int-num-from"
-                oninput="intLimitSync()"
-              />
-              <button class="arr-btn" onclick="intLimitStep('from', 0.1)">
-                ›
-              </button>
-            </div>
-          </div>
-          <div class="ctrl-row">
-            <span class="ctrl-label" style="color: var(--teal)">b (deri)</span>
-            <input
-              type="range"
-              min="-10"
-              max="10"
-              step="0.1"
-              value="2"
-              id="int-sl-to"
-              oninput="intLimitSync()"
-            />
-            <div class="num-wrap">
-              <button class="arr-btn" onclick="intLimitStep('to', -0.1)">
-                ‹
-              </button>
-              <input
-                type="number"
-                min="-10"
-                max="10"
-                step="0.1"
-                value="2"
-                id="int-num-to"
-                oninput="intLimitSync()"
-              />
-              <button class="arr-btn" onclick="intLimitStep('to', 0.1)">
-                ›
-              </button>
-            </div>
-          </div>
-        </div>
-        <canvas id="int-cv" height="420"></canvas>
-        <div class="info-grid info-grid-3" style="margin-top: 10px">
-          <div class="ic" style="border-color: rgba(251, 191, 36, 0.2)">
-            <div class="lbl" style="color: var(--amber)">Kufiri [a, b]</div>
-            <div class="val" id="int-limits" style="color: var(--amber)">—</div>
-          </div>
-          <div class="ic teal">
-            <div class="lbl">Sipërfaqja ∫f(x)dx</div>
-            <div class="val" id="int-area">—</div>
-          </div>
-          <div class="ic purple">
-            <div class="lbl">Sipërfaqja |neto|</div>
-            <div class="val" id="int-absarea">—</div>
-          </div>
-        </div>
-        <div class="hint">
-          Tërhiqni kufijtë portokalli/jeshile direkt në grafik ose përdorni
-          shiritat
+      </div>
+      <div class="ctrl-row" id="int-d-row" style="display: none">
+        <span class="ctrl-label" style="color: var(--amber)">d</span>
+        <input type="range" min="-5" max="5" step="0.1" value="0" id="int-sl-d" oninput="intCoefSyncFromSlider('d', parseFloat(this.value))" />
+        <div class="num-wrap">
+          <button class="arr-btn" onclick="intCoefStep('d', -0.1)">‹</button>
+          <input type="number" min="-5" max="5" step="0.1" value="0" id="int-num-d" oninput="intCoefSyncFromNum('d', parseFloat(this.value))" />
+          <button class="arr-btn" onclick="intCoefStep('d', 0.1)">›</button>
         </div>
       </div>
     </div>
+    <div style="margin-bottom: 10px">
+      <div style="font-family: 'DM Mono', monospace; font-size: 11px; color: var(--text3); margin-bottom: 6px;">
+        Kufiri x (tërhiqni pikën portokalli/jeshile)
+      </div>
+      <div class="ctrl-row">
+        <span class="ctrl-label" style="color: var(--amber)">a (nga)</span>
+        <input type="range" min="-10" max="10" step="0.1" value="-2" id="int-sl-from" oninput="intLimitSlider('from', this.value)" />
+        <div class="num-wrap">
+          <button class="arr-btn" onclick="intLimitStep('from', -0.1)">‹</button>
+          <input type="number" min="-10" max="10" step="0.1" value="-2" id="int-num-from" oninput="intLimitNum('from', this.value)" />
+          <button class="arr-btn" onclick="intLimitStep('from', 0.1)">›</button>
+        </div>
+      </div>
+      <div class="ctrl-row">
+        <span class="ctrl-label" style="color: var(--teal)">b (deri)</span>
+        <input type="range" min="-10" max="10" step="0.1" value="2" id="int-sl-to" oninput="intLimitSlider('to', this.value)" />
+        <div class="num-wrap">
+          <button class="arr-btn" onclick="intLimitStep('to', -0.1)">‹</button>
+          <input type="number" min="-10" max="10" step="0.1" value="2" id="int-num-to" oninput="intLimitNum('to', this.value)" />
+          <button class="arr-btn" onclick="intLimitStep('to', 0.1)">›</button>
+        </div>
+      </div>
+    </div>
+    <canvas id="int-cv" height="420" style="touch-action: none; cursor: ew-resize;"></canvas>
+    <div class="info-grid info-grid-3" style="margin-top: 10px">
+      <div class="ic" style="border-color: rgba(251, 191, 36, 0.2)">
+        <div class="lbl" style="color: var(--amber)">Kufiri [a, b]</div>
+        <div class="val" id="int-limits" style="color: var(--amber)">—</div>
+      </div>
+      <div class="ic teal">
+        <div class="lbl">Sipërfaqja ∫f(x)dx</div>
+        <div class="val" id="int-area">—</div>
+      </div>
+      <div class="ic purple">
+        <div class="lbl">Sipërfaqja |neto|</div>
+        <div class="val" id="int-absarea">—</div>
+      </div>
+    </div>
+    <div class="hint">
+      Tërhiqni kufijtë portokalli/jeshile direkt në grafik ose përdorni shiritat
+    </div>
+  </div>
+</div>
 
     <!-- ══════════════════ 08 DERIVATIVE ══════════════════ -->
     <div class="section" id="derivative">
-      <div class="section-header">
-        <span class="section-num">08</span>
-        <span class="section-title">Derivati</span>
-        <span class="section-tag tag-calculus">Kalkulus</span>
+  <div class="section-header">
+    <span class="section-num">08</span>
+    <span class="section-title">Derivati</span>
+    <span class="section-tag tag-calculus">Kalkulus</span>
+  </div>
+  <div class="card">
+    <div class="card-desc">
+      Derivati f'(x) jep shkallën e ndryshimit të funksionit në çdo pikë.
+      Zgjidhni funksionin ose vendosni koeficientët tuaj.
+    </div>
+    <div class="toggle-row">
+      <div class="tog on-sine" id="der-f1" onclick="derSetFn(0)">x²</div>
+      <div class="tog" id="der-f2" onclick="derSetFn(1)">x³</div>
+      <div class="tog" id="der-f3" onclick="derSetFn(2)">sin(x)</div>
+      <div class="tog" id="der-f4" onclick="derSetFn(3)">cos(x)</div>
+      <div class="tog" id="der-f5" onclick="derSetFn(4)">Custom</div>
+    </div>
+    <div id="der-custom-ctrls" style="display: none; background: rgba(255, 255, 255, 0.02); border: 1px solid var(--border); border-radius: 10px; padding: 12px; margin-bottom: 12px;">
+      <div style="font-family: 'DM Mono', monospace; font-size: 11px; color: var(--text3); margin-bottom: 8px;">
+        Koeficientët e ekuacionit tuaj
       </div>
-      <div class="card">
-        <div class="card-desc">
-          Derivati f'(x) jep shkallën e ndryshimit të funksionit në çdo pikë.
-          Zgjidhni funksionin ose vendosni koeficientët tuaj.
+      <div class="toggle-row" style="margin-bottom: 8px">
+        <div class="tog on-sine" id="der-cust-quad" onclick="derSetCustomMode('quad')">Kuadratik ax²+bx+c</div>
+        <div class="tog" id="der-cust-cubic" onclick="derSetCustomMode('cubic')">Kubik ax³+bx²+cx+d</div>
+      </div>
+      <div class="ctrl-row">
+        <span class="ctrl-label" style="color: var(--blue)">a</span>
+        <input type="range" min="-5" max="5" step="0.1" value="1" id="der-sl-ca" oninput="derCustomSyncFromSlider('a', parseFloat(this.value))" />
+        <div class="num-wrap">
+          <button class="arr-btn" onclick="derCustomStep('a', -0.1)">‹</button>
+          <input type="number" min="-5" max="5" step="0.1" value="1" id="der-num-ca" oninput="derCustomSyncFromNum('a', parseFloat(this.value))" />
+          <button class="arr-btn" onclick="derCustomStep('a', 0.1)">›</button>
         </div>
-        <div class="toggle-row">
-          <div class="tog on-sine" id="der-f1" onclick="derSetFn(0)">x²</div>
-          <div class="tog" id="der-f2" onclick="derSetFn(1)">x³</div>
-          <div class="tog" id="der-f3" onclick="derSetFn(2)">sin(x)</div>
-          <div class="tog" id="der-f4" onclick="derSetFn(3)">cos(x)</div>
-          <div class="tog" id="der-f5" onclick="derSetFn(4)">Custom</div>
+      </div>
+      <div class="ctrl-row">
+        <span class="ctrl-label" style="color: var(--green)">b</span>
+        <input type="range" min="-5" max="5" step="0.1" value="0" id="der-sl-cb" oninput="derCustomSyncFromSlider('b', parseFloat(this.value))" />
+        <div class="num-wrap">
+          <button class="arr-btn" onclick="derCustomStep('b', -0.1)">‹</button>
+          <input type="number" min="-5" max="5" step="0.1" value="0" id="der-num-cb" oninput="derCustomSyncFromNum('b', parseFloat(this.value))" />
+          <button class="arr-btn" onclick="derCustomStep('b', 0.1)">›</button>
         </div>
-        <div
-          id="der-custom-ctrls"
-          style="
-            display: none;
-            background: rgba(255, 255, 255, 0.02);
-            border: 1px solid var(--border);
-            border-radius: 10px;
-            padding: 12px;
-            margin-bottom: 12px;
-          "
-        >
-          <div
-            style="
-              font-family: &quot;DM Mono&quot;, monospace;
-              font-size: 11px;
-              color: var(--text3);
-              margin-bottom: 8px;
-            "
-          >
-            Koeficientët e ekuacionit tuaj
-          </div>
-          <div class="toggle-row" style="margin-bottom: 8px">
-            <div
-              class="tog on-sine"
-              id="der-cust-quad"
-              onclick="derSetCustomMode('quad')"
-            >
-              Kuadratik ax²+bx+c
-            </div>
-            <div
-              class="tog"
-              id="der-cust-cubic"
-              onclick="derSetCustomMode('cubic')"
-            >
-              Kubik ax³+bx²+cx+d
-            </div>
-          </div>
-          <div class="ctrl-row">
-            <span class="ctrl-label" style="color: var(--blue)">a</span>
-            <input
-              type="range"
-              min="-5"
-              max="5"
-              step="0.1"
-              value="1"
-              id="der-sl-ca"
-              oninput="derCustomSync()"
-            />
-            <div class="num-wrap">
-              <button class="arr-btn" onclick="derCustomStep('a', -0.1)">
-                ‹
-              </button>
-              <input
-                type="number"
-                min="-5"
-                max="5"
-                step="0.1"
-                value="1"
-                id="der-num-ca"
-              />
-              <button class="arr-btn" onclick="derCustomStep('a', 0.1)">
-                ›
-              </button>
-            </div>
-          </div>
-          <div class="ctrl-row">
-            <span class="ctrl-label" style="color: var(--green)">b</span>
-            <input
-              type="range"
-              min="-5"
-              max="5"
-              step="0.1"
-              value="0"
-              id="der-sl-cb"
-              oninput="derCustomSync()"
-            />
-            <div class="num-wrap">
-              <button class="arr-btn" onclick="derCustomStep('b', -0.1)">
-                ‹
-              </button>
-              <input
-                type="number"
-                min="-5"
-                max="5"
-                step="0.1"
-                value="0"
-                id="der-num-cb"
-              />
-              <button class="arr-btn" onclick="derCustomStep('b', 0.1)">
-                ›
-              </button>
-            </div>
-          </div>
-          <div class="ctrl-row">
-            <span class="ctrl-label" style="color: var(--coral)">c</span>
-            <input
-              type="range"
-              min="-5"
-              max="5"
-              step="0.1"
-              value="0"
-              id="der-sl-cc"
-              oninput="derCustomSync()"
-            />
-            <div class="num-wrap">
-              <button class="arr-btn" onclick="derCustomStep('c', -0.1)">
-                ‹
-              </button>
-              <input
-                type="number"
-                min="-5"
-                max="5"
-                step="0.1"
-                value="0"
-                id="der-num-cc"
-              />
-              <button class="arr-btn" onclick="derCustomStep('c', 0.1)">
-                ›
-              </button>
-            </div>
-          </div>
-          <div class="ctrl-row" id="der-d-row" style="display: none">
-            <span class="ctrl-label" style="color: var(--amber)">d</span>
-            <input
-              type="range"
-              min="-5"
-              max="5"
-              step="0.1"
-              value="0"
-              id="der-sl-cd"
-              oninput="derCustomSync()"
-            />
-            <div class="num-wrap">
-              <button class="arr-btn" onclick="derCustomStep('d', -0.1)">
-                ‹
-              </button>
-              <input
-                type="number"
-                min="-5"
-                max="5"
-                step="0.1"
-                value="0"
-                id="der-num-cd"
-              />
-              <button class="arr-btn" onclick="derCustomStep('d', 0.1)">
-                ›
-              </button>
-            </div>
-          </div>
+      </div>
+      <div class="ctrl-row">
+        <span class="ctrl-label" style="color: var(--coral)">c</span>
+        <input type="range" min="-5" max="5" step="0.1" value="0" id="der-sl-cc" oninput="derCustomSyncFromSlider('c', parseFloat(this.value))" />
+        <div class="num-wrap">
+          <button class="arr-btn" onclick="derCustomStep('c', -0.1)">‹</button>
+          <input type="number" min="-5" max="5" step="0.1" value="0" id="der-num-cc" oninput="derCustomSyncFromNum('c', parseFloat(this.value))" />
+          <button class="arr-btn" onclick="derCustomStep('c', 0.1)">›</button>
         </div>
-        <div class="formula-display" id="der-formula">
-          f(x) = x² &nbsp;→&nbsp; f′(x) = 2x
-        </div>
-        <div class="ctrl-group">
-          <div class="ctrl-row">
-            <span class="ctrl-label" style="color: var(--amber)">x</span>
-            <input
-              type="range"
-              min="-6"
-              max="6"
-              step="0.05"
-              value="1"
-              id="der-sl-x"
-              oninput="derSync(parseFloat(this.value))"
-            />
-            <div class="num-wrap">
-              <button class="arr-btn" onclick="derStep(-0.1)">‹</button>
-              <input
-                type="number"
-                min="-6"
-                max="6"
-                step="0.05"
-                value="1"
-                id="der-num-x"
-                oninput="derSync(parseFloat(this.value))"
-              />
-              <button class="arr-btn" onclick="derStep(0.1)">›</button>
-            </div>
-          </div>
-        </div>
-        <canvas id="der-cv" height="440"></canvas>
-        <div class="info-grid info-grid-4" style="margin-top: 10px">
-          <div class="ic" style="border-color: rgba(251, 191, 36, 0.2)">
-            <div class="lbl" style="color: var(--amber)">x</div>
-            <div class="val" id="der-x-val" style="color: var(--amber)">—</div>
-          </div>
-          <div class="ic purple">
-            <div class="lbl">f(x)</div>
-            <div class="val" id="der-fx">—</div>
-          </div>
-          <div class="ic coral">
-            <div class="lbl">f′(x) — Pjerrësia</div>
-            <div class="val" id="der-fpx">—</div>
-          </div>
-          <div class="ic blue">
-            <div class="lbl">Ekuac. tangjente</div>
-            <div class="val" id="der-tan">—</div>
-          </div>
-        </div>
-        <div class="hint">
-          Tërhiqni pikën portokalli në grafik ose përdorni shiritin
+      </div>
+      <div class="ctrl-row" id="der-d-row" style="display: none">
+        <span class="ctrl-label" style="color: var(--amber)">d</span>
+        <input type="range" min="-5" max="5" step="0.1" value="0" id="der-sl-cd" oninput="derCustomSyncFromSlider('d', parseFloat(this.value))" />
+        <div class="num-wrap">
+          <button class="arr-btn" onclick="derCustomStep('d', -0.1)">‹</button>
+          <input type="number" min="-5" max="5" step="0.1" value="0" id="der-num-cd" oninput="derCustomSyncFromNum('d', parseFloat(this.value))" />
+          <button class="arr-btn" onclick="derCustomStep('d', 0.1)">›</button>
         </div>
       </div>
     </div>
+    <div class="formula-display" id="der-formula">f(x) = x² &nbsp;→&nbsp; f′(x) = 2x</div>
+    <div class="ctrl-group">
+      <div class="ctrl-row">
+        <span class="ctrl-label" style="color: var(--amber)">x</span>
+        <input type="range" min="-6" max="6" step="0.05" value="1" id="der-sl-x" oninput="derSync(parseFloat(this.value))" />
+        <div class="num-wrap">
+          <button class="arr-btn" onclick="derStep(-0.1)">‹</button>
+          <input type="number" min="-6" max="6" step="0.05" value="1" id="der-num-x" oninput="derSync(parseFloat(this.value))" />
+          <button class="arr-btn" onclick="derStep(0.1)">›</button>
+        </div>
+      </div>
+    </div>
+    <canvas id="der-cv" height="440" style="touch-action: none; cursor: ew-resize;"></canvas>
+    <div class="info-grid info-grid-4" style="margin-top: 10px">
+      <div class="ic" style="border-color: rgba(251, 191, 36, 0.2)">
+        <div class="lbl" style="color: var(--amber)">x</div>
+        <div class="val" id="der-x-val" style="color: var(--amber)">—</div>
+      </div>
+      <div class="ic purple">
+        <div class="lbl">f(x)</div>
+        <div class="val" id="der-fx">—</div>
+      </div>
+      <div class="ic coral">
+        <div class="lbl">f′(x) — Pjerrësia</div>
+        <div class="val" id="der-fpx">—</div>
+      </div>
+      <div class="ic blue">
+        <div class="lbl">Ekuac. tangjente</div>
+        <div class="val" id="der-tan">—</div>
+      </div>
+    </div>
+    <div class="hint">
+      Tërhiqni pikën portokalli në grafik ose përdorni shiritin
+    </div>
+  </div>
+</div>
 
     <!-- ══════════════════ 09 GRAPH BUILDER ══════════════════ -->
     <div class="section" id="graphbuilder">
@@ -2661,7 +2428,6 @@
             py = cy - Math.sin(angle) * r;
           const footX = px,
             footY = cy;
-          // triangle fill
           ucqctx.beginPath();
           ucqctx.moveTo(cx, cy);
           ucqctx.lineTo(px, py);
@@ -2669,14 +2435,12 @@
           ucqctx.closePath();
           ucqctx.fillStyle = cols[i] + "20";
           ucqctx.fill();
-          // hypotenuse
           ucqctx.beginPath();
           ucqctx.moveTo(cx, cy);
           ucqctx.lineTo(px, py);
           ucqctx.strokeStyle = cols[i];
           ucqctx.lineWidth = 2;
           ucqctx.stroke();
-          // vertical leg
           ucqctx.beginPath();
           ucqctx.moveTo(px, py);
           ucqctx.lineTo(footX, footY);
@@ -2685,7 +2449,6 @@
           ucqctx.setLineDash([3, 3]);
           ucqctx.stroke();
           ucqctx.setLineDash([]);
-          // horizontal leg
           ucqctx.beginPath();
           ucqctx.moveTo(cx, cy);
           ucqctx.lineTo(footX, footY);
@@ -2694,9 +2457,7 @@
           ucqctx.globalAlpha = 0.35;
           ucqctx.stroke();
           ucqctx.globalAlpha = 1;
-          // dot on circle
           drawDot(ucqctx, px, py, cols[i], 5);
-          // label
           ucqctx.fillStyle = cols[i];
           ucqctx.font = "bold 10px sans-serif";
           ucqctx.textAlign = "center";
@@ -3890,7 +3651,6 @@
           document.getElementById("cu-lmax").textContent = "—";
           document.getElementById("cu-lmin").textContent = "—";
         }
-        // x-axis roots
         const roots = [];
         for (let x = -10; x <= 10; x += 0.05) {
           const y1 = cuFn(x, a, b, c, d),
@@ -3977,7 +3737,6 @@
           } else cuctx.lineTo(sx, sy);
         }
         cuctx.stroke();
-        // x-axis roots (pink dots like quadratic)
         for (let xi = -10; xi <= 10; xi += 0.02) {
           const y1 = cuFn(xi, cuCurA, cuCurB, cuCurC, cuCurD);
           const y2 = cuFn(xi + 0.02, cuCurA, cuCurB, cuCurC, cuCurD);
@@ -3995,7 +3754,6 @@
             }
           }
         }
-        // critical points (green dots)
         const da = 3 * cuCurA,
           db2 = 2 * cuCurB,
           dc = cuCurC;
@@ -4423,24 +4181,119 @@
       }
 
       // ─── INTEGRAL ─────────────────────────────────────────────────
-      const intcv = document.getElementById("int-cv");
-      const intctx = intcv.getContext("2d");
-      let intW = 0,
-        intH = 0,
-        intMode = "quad",
-        intFrom = -2,
-        intTo = 2,
+
+const intcv = document.getElementById("int-cv");
+const intctx = intcv.getContext("2d");
+let intW = 0, intH = 0, intMode = "quad", intFrom = -2, intTo = 2, intDrag = null;
+
+const INT_XMIN = -11, INT_XMAX = 11, INT_YMIN = -12, INT_YMAX = 12;
+
+function intTp(x, y) {
+  return [((x - INT_XMIN) / (INT_XMAX - INT_XMIN)) * intW, intH - ((y - INT_YMIN) / (INT_YMAX - INT_YMIN)) * intH];
+}
+function intMathToCanvas(x) {
+  return ((x - INT_XMIN) / (INT_XMAX - INT_XMIN)) * intW;
+}
+function intCanvasToMath(cx) {
+  return INT_XMIN + (cx / intW) * (INT_XMAX - INT_XMIN);
+}
+function intGetPos(e) {
+  const r = intcv.getBoundingClientRect();
+  return { x: (e.clientX - r.left) * (intW / r.width) };
+}
+function intHitTest(p) {
+  const fc = intMathToCanvas(intFrom);
+  const tc = intMathToCanvas(intTo);
+  const df = Math.abs(p.x - fc);
+  const dt = Math.abs(p.x - tc);
+  if (df < dt && df < 32) return "from";
+  if (dt <= df && dt < 32) return "to";
+  return null;
+}
+function intApplyDrag(p) {
+  const v = parseFloat(clamp(intCanvasToMath(p.x), -10, 10).toFixed(1));
+  if (intDrag === "from") {
+    intFrom = v;
+    document.getElementById("int-sl-from").value = v;
+    document.getElementById("int-num-from").value = v;
+  } else {
+    intTo = v;
+    document.getElementById("int-sl-to").value = v;
+    document.getElementById("int-num-to").value = v;
+  }
+  intUpdateAll();
+}
+
+// FIXED: Use pointer events for consistent dragging
+intcv.addEventListener("pointerdown", (e) => {
+  e.preventDefault();
+  intDrag = intHitTest(intGetPos(e));
+  if (intDrag) {
+    intcv.setPointerCapture(e.pointerId);
+    intcv.style.cursor = "ew-resize";
+  }
+});
+
+intcv.addEventListener("pointermove", (e) => {
+  e.preventDefault();
+  if (!intDrag) return;
+  intApplyDrag(intGetPos(e));
+});
+
+intcv.addEventListener("pointerup", () => {
+  intDrag = null;
+  intcv.style.cursor = "default";
+});
+
+intcv.addEventListener("pointercancel", () => {
+  intDrag = null;
+  intcv.style.cursor = "default";
+});
+
+// Also keep touch support for mobile
+intcv.addEventListener("touchstart", (e) => {
+  e.preventDefault();
+  const touch = e.touches[0];
+  intDrag = intHitTest({ x: (touch.clientX - intcv.getBoundingClientRect().left) * (intW / intcv.clientWidth) });
+  if (intDrag) intcv.style.cursor = "ew-resize";
+}, { passive: false });
+
+intcv.addEventListener("touchmove", (e) => {
+  e.preventDefault();
+  if (!intDrag) return;
+  const touch = e.touches[0];
+  intApplyDrag({ x: (touch.clientX - intcv.getBoundingClientRect().left) * (intW / intcv.clientWidth) });
+}, { passive: false });
+
+intcv.addEventListener("touchend", () => {
+  intDrag = null;
+  intcv.style.cursor = "default";
+});
+      intcv.addEventListener("mouseleave", () => {
         intDrag = null;
-      function intSetMode(m) {
-        intMode = m;
-        document.getElementById("int-q-btn").className =
-          "tog " + (m === "quad" ? "on-sine" : "");
-        document.getElementById("int-k-btn").className =
-          "tog " + (m === "cubic" ? "on-sine" : "");
-        document.getElementById("int-d-row").style.display =
-          m === "cubic" ? "flex" : "none";
-        intUpdateAll();
-      }
+        intcv.style.cursor = "default";
+      });
+      intcv.addEventListener(
+        "touchstart",
+        (e) => {
+          e.preventDefault();
+          intDrag = intHitTest(intGetPos(e));
+        },
+        { passive: false },
+      );
+      intcv.addEventListener(
+        "touchmove",
+        (e) => {
+          e.preventDefault();
+          if (!intDrag) return;
+          intApplyDrag(intGetPos(e));
+        },
+        { passive: false },
+      );
+      intcv.addEventListener("touchend", () => {
+        intDrag = null;
+      });
+
       function intGetCoefs() {
         return {
           a: parseFloat(document.getElementById("int-num-a").value) || 0,
@@ -4464,40 +4317,80 @@
               (c * x * x) / 2 +
               d * x;
       }
-      function intCoefSync() {
-        ["a", "b", "c", "d"].forEach((k) => {
-          document.getElementById("int-sl-" + k).value =
-            document.getElementById("int-num-" + k).value;
-        });
+      function intSetMode(m) {
+        intMode = m;
+        document.getElementById("int-q-btn").className =
+          "tog" + (m === "quad" ? " on-sine" : "");
+        document.getElementById("int-k-btn").className =
+          "tog" + (m === "cubic" ? " on-sine" : "");
+        document.getElementById("int-d-row").style.display =
+          m === "cubic" ? "flex" : "none";
         intUpdateAll();
       }
-      function intCoefStep(l, d2) {
-        const el = document.getElementById("int-num-" + l);
-        let v = parseFloat(el.value) || 0;
-        v = parseFloat(clamp(v + d2, -5, 5).toFixed(1));
-        el.value = v;
-        document.getElementById("int-sl-" + l).value = v;
-        intCoefSync();
-      }
-      function intLimitSync() {
-        intFrom =
-          parseFloat(document.getElementById("int-num-from").value) || 0;
-        intTo = parseFloat(document.getElementById("int-num-to").value) || 0;
-        document.getElementById("int-sl-from").value = intFrom;
-        document.getElementById("int-sl-to").value = intTo;
-        intUpdateAll();
-      }
-      function intLimitStep(l, d2) {
-        const id = "int-num-" + l;
-        const el = document.getElementById(id);
-        let v = parseFloat(el.value) || 0;
-        v = parseFloat(clamp(v + d2, -10, 10).toFixed(1));
-        el.value = v;
-        if (l === "from") intFrom = v;
-        else intTo = v;
-        document.getElementById("int-sl-" + l).value = v;
-        intUpdateAll();
-      }
+      // Add these functions near the other integral functions (around line 1950-2000)
+
+// Fix the coefficient sync - make sure it triggers redraw
+function intCoefSync() {
+  // Sync all coefficient inputs to their corresponding range sliders
+  const coefs = ['a', 'b', 'c', 'd'];
+  coefs.forEach((k) => {
+    const numEl = document.getElementById("int-num-" + k);
+    const slEl = document.getElementById("int-sl-" + k);
+    if (numEl && slEl) {
+      let val = parseFloat(numEl.value);
+      if (isNaN(val)) val = 0;
+      val = clamp(val, -5, 5);
+      numEl.value = val;
+      slEl.value = val;
+    }
+  });
+  intUpdateAll(); // This triggers the redraw
+}
+
+function intCoefStep(l, d) {
+  const el = document.getElementById("int-num-" + l);
+  if (!el) return;
+  let v = parseFloat(el.value);
+  if (isNaN(v)) v = 0;
+  v = parseFloat(clamp(v + d, -5, 5).toFixed(1));
+  el.value = v;
+  const sl = document.getElementById("int-sl-" + l);
+  if (sl) sl.value = v;
+  intUpdateAll();
+}
+
+// Also fix the limit slider/num functions to ensure they work properly
+function intLimitSlider(l, v) {
+  const n = parseFloat(v);
+  if (isNaN(n)) return;
+  if (l === "from") intFrom = clamp(n, -10, 10);
+  else intTo = clamp(n, -10, 10);
+  document.getElementById("int-num-" + l).value = l === "from" ? intFrom : intTo;
+  intUpdateAll();
+}
+
+function intLimitNum(l, v) {
+  const n = parseFloat(v);
+  if (isNaN(n)) return;
+  if (l === "from") intFrom = clamp(n, -10, 10);
+  else intTo = clamp(n, -10, 10);
+  document.getElementById("int-sl-" + l).value = l === "from" ? intFrom : intTo;
+  intUpdateAll();
+}
+
+function intLimitStep(l, d) {
+  const el = document.getElementById("int-num-" + l);
+  if (!el) return;
+  let v = parseFloat(el.value);
+  if (isNaN(v)) v = 0;
+  v = parseFloat(clamp(v + d, -10, 10).toFixed(1));
+  el.value = v;
+  const sl = document.getElementById("int-sl-" + l);
+  if (sl) sl.value = v;
+  if (l === "from") intFrom = v;
+  else intTo = v;
+  intUpdateAll();
+}
       function intUpdateAll() {
         intUpdateFormula();
         intDraw();
@@ -4525,68 +4418,60 @@
         intctx.clearRect(0, 0, intcv.width, intcv.height);
         intctx.save();
         intctx.scale(dpr, dpr);
-        const W = intW,
-          H = intH,
-          xMin = -11,
-          xMax = 11,
-          yMin = -12,
-          yMax = 12;
-        function tp(x, y) {
-          return [
-            ((x - xMin) / (xMax - xMin)) * W,
-            H - ((y - yMin) / (yMax - yMin)) * H,
-          ];
-        }
+
         intctx.strokeStyle = "rgba(255,255,255,0.04)";
         intctx.lineWidth = 0.5;
-        for (let i = xMin; i <= xMax; i++) {
-          const [px] = tp(i, 0);
+        for (let i = INT_XMIN; i <= INT_XMAX; i++) {
+          const [px] = intTp(i, 0);
           intctx.beginPath();
           intctx.moveTo(px, 0);
-          intctx.lineTo(px, H);
+          intctx.lineTo(px, intH);
           intctx.stroke();
         }
-        for (let i = yMin; i <= yMax; i += 2) {
-          const [, py] = tp(0, i);
+        for (let i = INT_YMIN; i <= INT_YMAX; i += 2) {
+          const [, py] = intTp(0, i);
           intctx.beginPath();
           intctx.moveTo(0, py);
-          intctx.lineTo(W, py);
+          intctx.lineTo(intW, py);
           intctx.stroke();
         }
+
         intctx.strokeStyle = "rgba(255,255,255,0.15)";
         intctx.lineWidth = 1;
-        const [ax0, ay] = tp(xMin, 0),
-          [ax1] = tp(xMax, 0);
+        const [ax0, ay] = intTp(INT_XMIN, 0),
+          [ax1] = intTp(INT_XMAX, 0);
         intctx.beginPath();
         intctx.moveTo(ax0, ay);
         intctx.lineTo(ax1, ay);
         intctx.stroke();
-        const [oxl, oy0] = tp(0, yMin),
-          [, oy1] = tp(0, yMax);
+        const [ox, oy0] = intTp(0, INT_YMIN),
+          [, oy1] = intTp(0, INT_YMAX);
         intctx.beginPath();
-        intctx.moveTo(oxl, oy0);
-        intctx.lineTo(oxl, oy1);
+        intctx.moveTo(ox, oy0);
+        intctx.lineTo(ox, oy1);
         intctx.stroke();
+
         intctx.fillStyle = "rgba(255,255,255,0.18)";
         intctx.font = "10px sans-serif";
         intctx.textAlign = "center";
-        for (let i = xMin + 2; i <= xMax; i += 2) {
+        for (let i = INT_XMIN + 2; i <= INT_XMAX; i += 2) {
           if (!i) continue;
-          const [px, py] = tp(i, 0);
+          const [px, py] = intTp(i, 0);
           intctx.fillText(i, px, py + 13);
         }
+
         const from = Math.min(intFrom, intTo),
           to = Math.max(intFrom, intTo);
         intctx.beginPath();
-        const [p0x, p0y] = tp(from, 0);
+        const [p0x, p0y] = intTp(from, 0);
         intctx.moveTo(p0x, p0y);
-        for (let i = 0; i <= 200; i++) {
-          const x = from + ((to - from) * i) / 200;
-          const y = clamp(intFn(x), yMin, yMax);
-          const [px, py] = tp(x, y);
+        for (let i = 0; i <= 300; i++) {
+          const x = from + ((to - from) * i) / 300;
+          const y = clamp(intFn(x), INT_YMIN, INT_YMAX);
+          const [px, py] = intTp(x, y);
           intctx.lineTo(px, py);
         }
-        const [p1x, p1y] = tp(to, 0);
+        const [p1x, p1y] = intTp(to, 0);
         intctx.lineTo(p1x, p1y);
         intctx.closePath();
         intctx.fillStyle = "rgba(96,165,250,0.18)";
@@ -4594,46 +4479,73 @@
         intctx.strokeStyle = "rgba(96,165,250,0.4)";
         intctx.lineWidth = 1;
         intctx.stroke();
+
         intctx.beginPath();
         intctx.strokeStyle = "#a78bfa";
         intctx.lineWidth = 2.5;
         intctx.lineJoin = "round";
-        let st2 = false;
-        for (let px2 = 0; px2 <= W * 2; px2++) {
-          const x = xMin + (px2 / (W * 2)) * (xMax - xMin);
+        let st = false;
+        for (let px2 = 0; px2 <= intW * 2; px2++) {
+          const x = INT_XMIN + (px2 / (intW * 2)) * (INT_XMAX - INT_XMIN);
           const y = intFn(x);
-          if (y < yMin - 3 || y > yMax + 3) {
-            st2 = false;
+          if (y < INT_YMIN - 3 || y > INT_YMAX + 3) {
+            st = false;
             continue;
           }
-          const [sx, sy] = tp(x, y);
-          if (!st2) {
+          const [sx, sy] = intTp(x, y);
+          if (!st) {
             intctx.moveTo(sx, sy);
-            st2 = true;
+            st = true;
           } else intctx.lineTo(sx, sy);
         }
         intctx.stroke();
-        // draggable limit markers — full vertical lines + dots on x-axis
-        const [fx, fy] = tp(intFrom, 0);
+
+        // FROM dot
+        const fxc = intMathToCanvas(intFrom);
+        const [, fyc] = intTp(intFrom, 0);
         intctx.beginPath();
-        intctx.moveTo(fx, 0);
-        intctx.lineTo(fx, H);
-        intctx.strokeStyle = "rgba(251,191,36,0.25)";
-        intctx.lineWidth = 1;
+        intctx.moveTo(fxc, 0);
+        intctx.lineTo(fxc, intH);
+        intctx.strokeStyle = "rgba(251,191,36,0.35)";
+        intctx.lineWidth = 2;
         intctx.setLineDash([4, 4]);
         intctx.stroke();
         intctx.setLineDash([]);
-        drawDot(intctx, fx, fy, "#fbbf24", 8);
-        const [tx, ty] = tp(intTo, 0);
         intctx.beginPath();
-        intctx.moveTo(tx, 0);
-        intctx.lineTo(tx, H);
-        intctx.strokeStyle = "rgba(45,212,191,0.25)";
-        intctx.lineWidth = 1;
+        intctx.arc(fxc, fyc, 12, 0, Math.PI * 2);
+        intctx.fillStyle = "rgba(251,191,36,0.15)";
+        intctx.fill();
+        intctx.beginPath();
+        intctx.arc(fxc, fyc, 8, 0, Math.PI * 2);
+        intctx.fillStyle = "#fbbf24";
+        intctx.fill();
+        intctx.strokeStyle = "#0f0f13";
+        intctx.lineWidth = 2;
+        intctx.stroke();
+
+        // TO dot
+        const txc = intMathToCanvas(intTo);
+        const [, tyc] = intTp(intTo, 0);
+        intctx.beginPath();
+        intctx.moveTo(txc, 0);
+        intctx.lineTo(txc, intH);
+        intctx.strokeStyle = "rgba(45,212,191,0.35)";
+        intctx.lineWidth = 2;
         intctx.setLineDash([4, 4]);
         intctx.stroke();
         intctx.setLineDash([]);
-        drawDot(intctx, tx, ty, "#2dd4bf", 8);
+        intctx.beginPath();
+        intctx.arc(txc, tyc, 12, 0, Math.PI * 2);
+        intctx.fillStyle = "rgba(45,212,191,0.15)";
+        intctx.fill();
+        intctx.beginPath();
+        intctx.arc(txc, tyc, 8, 0, Math.PI * 2);
+        intctx.fillStyle = "#2dd4bf";
+        intctx.fill();
+        intctx.strokeStyle = "#0f0f13";
+        intctx.lineWidth = 2;
+        intctx.stroke();
+
         const area = intAntideriv(intTo) - intAntideriv(intFrom);
         let absArea = 0;
         for (let i = 0; i < 500; i++) {
@@ -4646,447 +4558,379 @@
         document.getElementById("int-absarea").textContent = absArea.toFixed(4);
         intctx.restore();
       }
-      function intPtInCv(e) {
-        const r = intcv.getBoundingClientRect(),
-          cl = e.touches ? e.touches[0] : e;
-        return {
-          x: (cl.clientX - r.left) * (intW / r.width),
-          y: (cl.clientY - r.top) * (intH / r.height),
-        };
-      }
-      function intHit(p) {
-        const xMin = -11,
-          xMax = 11;
-        const fx = ((intFrom - xMin) / (xMax - xMin)) * intW;
-        const tx = ((intTo - xMin) / (xMax - xMin)) * intW;
-        if (Math.abs(p.x - fx) < 18) return "from";
-        if (Math.abs(p.x - tx) < 18) return "to";
-        return null;
-      }
-      function intDragMove(p) {
-        const xMin = -11,
-          xMax = 11;
-        const v = parseFloat(
-          clamp(xMin + (p.x / intW) * (xMax - xMin), -10, 10).toFixed(1),
-        );
-        if (intDrag === "from") {
-          intFrom = v;
-          document.getElementById("int-sl-from").value = v;
-          document.getElementById("int-num-from").value = v;
-        } else {
-          intTo = v;
-          document.getElementById("int-sl-to").value = v;
-          document.getElementById("int-num-to").value = v;
-        }
-        intUpdateAll();
-      }
-      intcv.addEventListener("mousedown", (e) => {
-        e.preventDefault();
-        intDrag = intHit(intPtInCv(e));
-        if (intDrag) intcv.style.cursor = "ew-resize";
-      });
-      intcv.addEventListener("mousemove", (e) => {
-        e.preventDefault();
-        if (!intDrag) return;
-        intDragMove(intPtInCv(e));
-      });
-      intcv.addEventListener("mouseup", () => {
-        intDrag = null;
-        intcv.style.cursor = "default";
-      });
-      intcv.addEventListener("mouseleave", () => {
-        intDrag = null;
-      });
-      intcv.addEventListener(
-        "touchstart",
-        (e) => {
-          e.preventDefault();
-          intDrag = intHit(intPtInCv(e));
-        },
-        { passive: false },
-      );
-      intcv.addEventListener(
-        "touchmove",
-        (e) => {
-          e.preventDefault();
-          if (!intDrag) return;
-          intDragMove(intPtInCv(e));
-        },
-        { passive: false },
-      );
-      intcv.addEventListener("touchend", () => {
-        intDrag = null;
-      });
       function intResize() {
-        const sz = setupCanvas(intcv, 400);
+        const sz = setupCanvas(intcv, 420);
         intW = sz.w;
         intH = sz.h;
         intUpdateAll();
       }
+      function intCoefSyncFromSlider(l, v) {
+  if (isNaN(v)) return;
+  v = parseFloat(clamp(v, -5, 5).toFixed(1));
+  const numEl = document.getElementById("int-num-" + l);
+  if (numEl) numEl.value = v;
+  intUpdateAll();
+}
 
       // ─── DERIVATIVE ───────────────────────────────────────────────
-      const dercv = document.getElementById("der-cv");
-      const derctx = dercv.getContext("2d");
-      let derW = 0,
-        derH = 0,
-        derX = 1,
-        derFnIdx = 0,
-        derDrag = false;
-      let derCustomMode = "quad";
+      // ─── DERIVATIVE ───────────────────────────────────────────────
+const dercv = document.getElementById("der-cv");
+const derctx = dercv.getContext("2d");
+let derW = 0, derH = 0, derX = 1, derFnIdx = 0, derDrag = false;
+let derCustomMode = "quad";
+let derCustomCoefs = { a: 1, b: 0, c: 0, d: 0 };
 
-      const derFns = [
-        { fn: (x) => x * x, dfn: (x) => 2 * x, label: "x²", dlabel: "2x" },
-        {
-          fn: (x) => x * x * x,
-          dfn: (x) => 3 * x * x,
-          label: "x³",
-          dlabel: "3x²",
-        },
-        {
-          fn: (x) => Math.sin(x),
-          dfn: (x) => Math.cos(x),
-          label: "sin(x)",
-          dlabel: "cos(x)",
-        },
-        {
-          fn: (x) => Math.cos(x),
-          dfn: (x) => -Math.sin(x),
-          label: "cos(x)",
-          dlabel: "−sin(x)",
-        },
-        { fn: null, dfn: null, label: "Custom", dlabel: "" },
-      ];
+const derFns = [
+  { fn: (x) => x * x, dfn: (x) => 2 * x, label: "x²", dlabel: "2x" },
+  { fn: (x) => x * x * x, dfn: (x) => 3 * x * x, label: "x³", dlabel: "3x²" },
+  { fn: (x) => Math.sin(x), dfn: (x) => Math.cos(x), label: "sin(x)", dlabel: "cos(x)" },
+  { fn: (x) => Math.cos(x), dfn: (x) => -Math.sin(x), label: "cos(x)", dlabel: "−sin(x)" },
+  { fn: null, dfn: null, label: "Custom", dlabel: "" },
+];
 
-      function derGetCustomCoefs() {
-        return {
-          a: parseFloat(document.getElementById("der-num-ca").value) || 0,
-          b: parseFloat(document.getElementById("der-num-cb").value) || 0,
-          c: parseFloat(document.getElementById("der-num-cc").value) || 0,
-          d: parseFloat(document.getElementById("der-num-cd").value) || 0,
-        };
-      }
-      function derBuildCustomFns() {
-        const { a, b, c, d } = derGetCustomCoefs();
-        if (derCustomMode === "quad") {
-          derFns[4].fn = (x) => a * x * x + b * x + c;
-          derFns[4].dfn = (x) => 2 * a * x + b;
-          const parts = [];
-          if (Math.abs(a) > 0.001)
-            parts.push((a === 1 ? "" : a === -1 ? "-" : a.toFixed(1)) + "x²");
-          if (Math.abs(b) > 0.001)
-            parts.push(
-              (b > 0 && parts.length ? "+" : b < 0 ? "" : "") +
-                (b === -1 ? "-x" : b === 1 ? "x" : b.toFixed(1) + "x"),
-            );
-          if (Math.abs(c) > 0.001)
-            parts.push((c > 0 && parts.length ? "+" : "") + c.toFixed(1));
-          derFns[4].label = parts.join("") || "0";
-          const dparts = [];
-          if (Math.abs(2 * a) > 0.001) dparts.push((2 * a).toFixed(1) + "x");
-          if (Math.abs(b) > 0.001)
-            dparts.push((b > 0 && dparts.length ? "+" : "") + b.toFixed(1));
-          derFns[4].dlabel = dparts.join("") || "0";
-        } else {
-          derFns[4].fn = (x) => a * x * x * x + b * x * x + c * x + d;
-          derFns[4].dfn = (x) => 3 * a * x * x + 2 * b * x + c;
-          const parts = [];
-          if (Math.abs(a) > 0.001)
-            parts.push((a === 1 ? "" : a === -1 ? "-" : a.toFixed(1)) + "x³");
-          if (Math.abs(b) > 0.001)
-            parts.push(
-              (b > 0 && parts.length ? "+" : b < 0 ? "" : "") +
-                b.toFixed(1) +
-                "x²",
-            );
-          if (Math.abs(c) > 0.001)
-            parts.push(
-              (c > 0 && parts.length ? "+" : c < 0 ? "" : "") +
-                c.toFixed(1) +
-                "x",
-            );
-          if (Math.abs(d) > 0.001)
-            parts.push((d > 0 && parts.length ? "+" : "") + d.toFixed(1));
-          derFns[4].label = parts.join("") || "0";
-          const dparts = [];
-          if (Math.abs(3 * a) > 0.001) dparts.push((3 * a).toFixed(1) + "x²");
-          if (Math.abs(2 * b) > 0.001)
-            dparts.push(
-              (2 * b > 0 && dparts.length ? "+" : "") +
-                (2 * b).toFixed(1) +
-                "x",
-            );
-          if (Math.abs(c) > 0.001)
-            dparts.push((c > 0 && dparts.length ? "+" : "") + c.toFixed(1));
-          derFns[4].dlabel = dparts.join("") || "0";
-        }
-      }
-      function derSetCustomMode(m) {
-        derCustomMode = m;
-        document.getElementById("der-cust-quad").className =
-          "tog " + (m === "quad" ? "on-sine" : "");
-        document.getElementById("der-cust-cubic").className =
-          "tog " + (m === "cubic" ? "on-sine" : "");
-        document.getElementById("der-d-row").style.display =
-          m === "cubic" ? "flex" : "none";
-        derBuildCustomFns();
-        derDraw();
-      }
-      function derCustomSync() {
-        ["a", "b", "c", "d"].forEach((k) => {
-          document.getElementById("der-sl-c" + k).value =
-            document.getElementById("der-num-c" + k).value;
-        });
-        derBuildCustomFns();
-        derDraw();
-      }
-      function derCustomStep(l, d) {
-        const el = document.getElementById("der-num-c" + l);
-        let v = parseFloat(el.value) || 0;
-        v = parseFloat(clamp(v + d, -5, 5).toFixed(1));
-        el.value = v;
-        document.getElementById("der-sl-c" + l).value = v;
-        derCustomSync();
-      }
-      function derSetFn(i) {
-        derFnIdx = i;
-        ["der-f1", "der-f2", "der-f3", "der-f4", "der-f5"].forEach((id, j) => {
-          document.getElementById(id).className =
-            "tog " + (j === i ? "on-sine" : "");
-        });
-        document.getElementById("der-custom-ctrls").style.display =
-          i === 4 ? "block" : "none";
-        if (i === 4) derBuildCustomFns();
-        derDraw();
-      }
-      function derSync(v) {
-        if (isNaN(v)) return;
-        derX = parseFloat(clamp(v, -6, 6).toFixed(2));
-        document.getElementById("der-sl-x").value = derX;
-        document.getElementById("der-num-x").value = derX;
-        derDraw();
-      }
-      function derStep(d) {
-        derSync(derX + d);
-      }
-      function derDraw() {
-        derctx.clearRect(0, 0, dercv.width, dercv.height);
-        derctx.save();
-        derctx.scale(dpr, dpr);
-        const W = derW,
-          halfH = Math.floor(derH / 2) - 4;
-        const xMin = -7,
-          xMax = 7,
-          yMin = -5,
-          yMax = 5;
-        const fn = derFns[derFnIdx].fn,
-          dfn = derFns[derFnIdx].dfn;
-        if (!fn || !dfn) {
-          derctx.restore();
-          return;
-        }
+function derGetCustomCoefs() {
+  return {
+    a: parseFloat(document.getElementById("der-num-ca")?.value) || 0,
+    b: parseFloat(document.getElementById("der-num-cb")?.value) || 0,
+    c: parseFloat(document.getElementById("der-num-cc")?.value) || 0,
+    d: parseFloat(document.getElementById("der-num-cd")?.value) || 0,
+  };
+}
 
-        function tp(x, y, off) {
-          return [
-            ((x - xMin) / (xMax - xMin)) * W,
-            halfH - ((y - yMin) / (yMax - yMin)) * halfH + (off || 0),
-          ];
-        }
-        function drawHalf(evalFn, col, label, off, showTan) {
-          derctx.strokeStyle = "rgba(255,255,255,0.04)";
-          derctx.lineWidth = 0.5;
-          for (let i = xMin; i <= xMax; i++) {
-            const [px] = tp(i, 0, off);
-            derctx.beginPath();
-            derctx.moveTo(px, off);
-            derctx.lineTo(px, halfH + off);
-            derctx.stroke();
-          }
-          derctx.strokeStyle = "rgba(255,255,255,0.15)";
-          derctx.lineWidth = 1;
-          const [ax0, ayl] = tp(xMin, 0, off),
-            [ax1] = tp(xMax, 0, off);
-          derctx.beginPath();
-          derctx.moveTo(ax0, ayl);
-          derctx.lineTo(ax1, ayl);
-          derctx.stroke();
-          const [oxl, oy0] = tp(0, yMin, off),
-            [, oy1] = tp(0, yMax, off);
-          derctx.beginPath();
-          derctx.moveTo(oxl, oy0);
-          derctx.lineTo(oxl, oy1);
-          derctx.stroke();
-          derctx.fillStyle = "rgba(255,255,255,0.18)";
-          derctx.font = "10px sans-serif";
-          derctx.textAlign = "center";
-          for (let i = xMin + 2; i <= xMax; i += 2) {
-            if (!i) continue;
-            const [px, py] = tp(i, 0, off);
-            derctx.fillText(i, px, py + 12);
-          }
-          derctx.beginPath();
-          derctx.strokeStyle = col;
-          derctx.lineWidth = 2.5;
-          derctx.lineJoin = "round";
-          let st = false;
-          for (let px2 = 0; px2 <= W * 2; px2++) {
-            const x = xMin + (px2 / (W * 2)) * (xMax - xMin);
-            let y;
-            try {
-              y = evalFn(x);
-            } catch (e) {
-              st = false;
-              continue;
-            }
-            if (!isFinite(y) || y < yMin - 3 || y > yMax + 3) {
-              st = false;
-              continue;
-            }
-            const [sx, sy] = tp(x, y, off);
-            if (!st) {
-              derctx.moveTo(sx, sy);
-              st = true;
-            } else derctx.lineTo(sx, sy);
-          }
-          derctx.stroke();
-          if (showTan) {
-            let fy2;
-            try {
-              fy2 = fn(derX);
-            } catch (e) {
-              fy2 = 0;
-            }
-            let slope;
-            try {
-              slope = dfn(derX);
-            } catch (e) {
-              slope = 0;
-            }
-            derctx.beginPath();
-            derctx.moveTo(...tp(xMin, slope * (xMin - derX) + fy2, off));
-            derctx.lineTo(...tp(xMax, slope * (xMax - derX) + fy2, off));
-            derctx.strokeStyle = "#fbbf24";
-            derctx.lineWidth = 1.5;
-            derctx.setLineDash([5, 5]);
-            derctx.stroke();
-            derctx.setLineDash([]);
-            const [px, py] = tp(derX, fy2, off);
-            drawDot(derctx, px, py, "#fbbf24", 7);
-          } else {
-            let dy;
-            try {
-              dy = dfn(derX);
-            } catch (e) {
-              dy = 0;
-            }
-            const [px, py] = tp(derX, dy, off);
-            drawDot(derctx, px, py, "#fb7185", 7);
-          }
-          derctx.fillStyle = col;
-          derctx.font = "bold 11px 'DM Mono',monospace";
-          derctx.textAlign = "left";
-          derctx.textBaseline = "top";
-          derctx.fillText(label, 8, off + 6);
-        }
-        derctx.beginPath();
-        derctx.moveTo(0, halfH + 2);
-        derctx.lineTo(W, halfH + 2);
-        derctx.strokeStyle = "rgba(255,255,255,0.08)";
-        derctx.lineWidth = 1;
-        derctx.stroke();
-        drawHalf(fn, "#a78bfa", "f(x) = " + derFns[derFnIdx].label, 0, true);
-        drawHalf(
-          dfn,
-          "#fb7185",
-          "f′(x) = " + derFns[derFnIdx].dlabel,
-          halfH + 6,
-          false,
-        );
+function derBuildCustomFns() {
+  const { a, b, c, d } = derGetCustomCoefs();
+  if (derCustomMode === "quad") {
+    derFns[4].fn = (x) => a * x * x + b * x + c;
+    derFns[4].dfn = (x) => 2 * a * x + b;
+    const parts = [];
+    if (Math.abs(a) > 0.001) parts.push((a === 1 ? "" : a === -1 ? "-" : a.toFixed(1)) + "x²");
+    if (Math.abs(b) > 0.001) parts.push((b > 0 && parts.length ? "+" : "") + (b === -1 ? "-x" : b === 1 ? "x" : b.toFixed(1) + "x"));
+    if (Math.abs(c) > 0.001) parts.push((c > 0 && parts.length ? "+" : "") + c.toFixed(1));
+    derFns[4].label = parts.join("") || "0";
+    const dparts = [];
+    if (Math.abs(2 * a) > 0.001) dparts.push((2 * a).toFixed(1) + "x");
+    if (Math.abs(b) > 0.001) dparts.push((b > 0 && dparts.length ? "+" : "") + b.toFixed(1));
+    derFns[4].dlabel = dparts.join("") || "0";
+  } else {
+    derFns[4].fn = (x) => a * x * x * x + b * x * x + c * x + d;
+    derFns[4].dfn = (x) => 3 * a * x * x + 2 * b * x + c;
+    const parts = [];
+    if (Math.abs(a) > 0.001) parts.push((a === 1 ? "" : a === -1 ? "-" : a.toFixed(1)) + "x³");
+    if (Math.abs(b) > 0.001) parts.push((b > 0 && parts.length ? "+" : "") + b.toFixed(1) + "x²");
+    if (Math.abs(c) > 0.001) parts.push((c > 0 && parts.length ? "+" : "") + (c === -1 ? "-x" : c === 1 ? "x" : c.toFixed(1) + "x"));
+    if (Math.abs(d) > 0.001) parts.push((d > 0 && parts.length ? "+" : "") + d.toFixed(1));
+    derFns[4].label = parts.join("") || "0";
+    const dparts = [];
+    if (Math.abs(3 * a) > 0.001) dparts.push((3 * a).toFixed(1) + "x²");
+    if (Math.abs(2 * b) > 0.001) dparts.push((2 * b > 0 && dparts.length ? "+" : "") + (2 * b).toFixed(1) + "x");
+    if (Math.abs(c) > 0.001) dparts.push((c > 0 && dparts.length ? "+" : "") + c.toFixed(1));
+    derFns[4].dlabel = dparts.join("") || "0";
+  }
+}
 
-        let fy, slope;
-        try {
-          fy = fn(derX);
-        } catch (e) {
-          fy = 0;
-        }
-        try {
-          slope = dfn(derX);
-        } catch (e) {
-          slope = 0;
-        }
-        document.getElementById("der-x-val").textContent = derX.toFixed(3);
-        document.getElementById("der-fx").textContent = isFinite(fy)
-          ? fy.toFixed(4)
-          : "—";
-        document.getElementById("der-fpx").textContent = isFinite(slope)
-          ? slope.toFixed(4)
-          : "—";
-        document.getElementById("der-tan").textContent = isFinite(slope)
-          ? "y=" + slope.toFixed(2) + "x+" + (fy - slope * derX).toFixed(2)
-          : "—";
-        document.getElementById("der-formula").textContent =
-          "f(x)=" +
-          derFns[derFnIdx].label +
-          " → f′(x)=" +
-          derFns[derFnIdx].dlabel;
-        derctx.restore();
+function derSetCustomMode(m) {
+  derCustomMode = m;
+  const quadBtn = document.getElementById("der-cust-quad");
+  const cubicBtn = document.getElementById("der-cust-cubic");
+  if (quadBtn) quadBtn.className = "tog " + (m === "quad" ? "on-sine" : "");
+  if (cubicBtn) cubicBtn.className = "tog " + (m === "cubic" ? "on-sine" : "");
+  const dRow = document.getElementById("der-d-row");
+  if (dRow) dRow.style.display = m === "cubic" ? "flex" : "none";
+  derBuildCustomFns();
+  derDraw();
+}
+
+// NEW: Sync from slider
+function derCustomSyncFromSlider(l, v) {
+  if (isNaN(v)) return;
+  v = parseFloat(clamp(v, -5, 5).toFixed(1));
+  const numEl = document.getElementById("der-num-c" + l);
+  if (numEl) numEl.value = v;
+  derBuildCustomFns();
+  derDraw();
+}
+
+// NEW: Sync from number input
+function derCustomSyncFromNum(l, v) {
+  if (isNaN(v)) return;
+  v = parseFloat(clamp(v, -5, 5).toFixed(1));
+  const slEl = document.getElementById("der-sl-c" + l);
+  if (slEl) slEl.value = v;
+  derBuildCustomFns();
+  derDraw();
+}
+
+// Fixed step function
+function derCustomStep(l, d) {
+  const el = document.getElementById("der-num-c" + l);
+  if (!el) return;
+  let v = parseFloat(el.value);
+  if (isNaN(v)) v = 0;
+  v = parseFloat(clamp(v + d, -5, 5).toFixed(1));
+  el.value = v;
+  const sl = document.getElementById("der-sl-c" + l);
+  if (sl) sl.value = v;
+  derBuildCustomFns();
+  derDraw();
+}
+
+function derSetFn(i) {
+  derFnIdx = i;
+  for (let j = 0; j < 5; j++) {
+    const btn = document.getElementById("der-f" + (j + 1));
+    if (btn) btn.className = "tog " + (j === i ? "on-sine" : "");
+  }
+  const customCtrls = document.getElementById("der-custom-ctrls");
+  if (customCtrls) customCtrls.style.display = i === 4 ? "block" : "none";
+  if (i === 4) derBuildCustomFns();
+  derDraw();
+}
+
+function derSync(v) {
+  if (isNaN(v)) return;
+  derX = parseFloat(clamp(v, -6, 6).toFixed(2));
+  const xSlider = document.getElementById("der-sl-x");
+  const xNum = document.getElementById("der-num-x");
+  if (xSlider) xSlider.value = derX;
+  if (xNum) xNum.value = derX;
+  derDraw();
+}
+
+function derStep(d) {
+  derSync(derX + d);
+}
+
+// Canvas drag for x position (FIXED)
+function derGetPos(e) {
+  const r = dercv.getBoundingClientRect();
+  const clientX = e.clientX !== undefined ? e.clientX : (e.touches ? e.touches[0].clientX : 0);
+  return { x: (clientX - r.left) * (derW / r.width) };
+}
+
+dercv.addEventListener("pointerdown", (e) => {
+  e.preventDefault();
+  derDrag = true;
+  dercv.setPointerCapture(e.pointerId);
+  const newX = clamp(-7 + (derGetPos(e).x / derW) * 14, -6, 6);
+  derSync(newX);
+  dercv.style.cursor = "ew-resize";
+});
+
+dercv.addEventListener("pointermove", (e) => {
+  e.preventDefault();
+  if (!derDrag) return;
+  const newX = clamp(-7 + (derGetPos(e).x / derW) * 14, -6, 6);
+  derSync(newX);
+});
+
+dercv.addEventListener("pointerup", () => {
+  derDrag = false;
+  dercv.style.cursor = "default";
+});
+
+dercv.addEventListener("pointercancel", () => {
+  derDrag = false;
+  dercv.style.cursor = "default";
+});
+
+// Touch support
+dercv.addEventListener("touchstart", (e) => {
+  e.preventDefault();
+  derDrag = true;
+  const newX = clamp(-7 + (derGetPos(e).x / derW) * 14, -6, 6);
+  derSync(newX);
+}, { passive: false });
+
+dercv.addEventListener("touchmove", (e) => {
+  e.preventDefault();
+  if (!derDrag) return;
+  const newX = clamp(-7 + (derGetPos(e).x / derW) * 14, -6, 6);
+  derSync(newX);
+}, { passive: false });
+
+dercv.addEventListener("touchend", () => {
+  derDrag = false;
+});
+
+function derDraw() {
+  if (!derctx) return;
+  derctx.clearRect(0, 0, dercv.width, dercv.height);
+  derctx.save();
+  derctx.scale(dpr, dpr);
+  const W = derW;
+  const halfH = Math.floor(derH / 2) - 4;
+  const xMin = -7, xMax = 7, yMin = -5, yMax = 5;
+  const fn = derFns[derFnIdx].fn;
+  const dfn = derFns[derFnIdx].dfn;
+  
+  if (!fn || !dfn) {
+    derctx.restore();
+    return;
+  }
+  
+  function tp(x, y, off) {
+    return [((x - xMin) / (xMax - xMin)) * W, halfH - ((y - yMin) / (yMax - yMin)) * halfH + (off || 0)];
+  }
+  
+  function drawHalf(evalFn, col, label, off, showTan) {
+    // Grid
+    derctx.strokeStyle = "rgba(255,255,255,0.04)";
+    derctx.lineWidth = 0.5;
+    for (let i = xMin; i <= xMax; i++) {
+      const [px] = tp(i, 0, off);
+      derctx.beginPath();
+      derctx.moveTo(px, off);
+      derctx.lineTo(px, halfH + off);
+      derctx.stroke();
+    }
+    for (let i = yMin; i <= yMax; i += 1) {
+      const [, py] = tp(0, i, off);
+      derctx.beginPath();
+      derctx.moveTo(0, py);
+      derctx.lineTo(W, py);
+      derctx.stroke();
+    }
+    
+    // Axis
+    derctx.strokeStyle = "rgba(255,255,255,0.15)";
+    derctx.lineWidth = 1;
+    const [ax0, ayl] = tp(xMin, 0, off);
+    const [ax1] = tp(xMax, 0, off);
+    derctx.beginPath();
+    derctx.moveTo(ax0, ayl);
+    derctx.lineTo(ax1, ayl);
+    derctx.stroke();
+    const [oxl, oy0] = tp(0, yMin, off);
+    const [, oy1] = tp(0, yMax, off);
+    derctx.beginPath();
+    derctx.moveTo(oxl, oy0);
+    derctx.lineTo(oxl, oy1);
+    derctx.stroke();
+    
+    // Labels
+    derctx.fillStyle = "rgba(255,255,255,0.18)";
+    derctx.font = "10px sans-serif";
+    derctx.textAlign = "center";
+    for (let i = xMin + 2; i <= xMax; i += 2) {
+      if (i === 0) continue;
+      const [px, py] = tp(i, 0, off);
+      derctx.fillText(i, px, py + 12);
+    }
+    
+    // Function curve
+    derctx.beginPath();
+    derctx.strokeStyle = col;
+    derctx.lineWidth = 2.5;
+    derctx.lineJoin = "round";
+    let started = false;
+    for (let px2 = 0; px2 <= W * 2; px2++) {
+      const x = xMin + (px2 / (W * 2)) * (xMax - xMin);
+      let y;
+      try {
+        y = evalFn(x);
+      } catch (e) {
+        started = false;
+        continue;
       }
-      function derPtInCv(e) {
-        const r = dercv.getBoundingClientRect(),
-          cl = e.touches ? e.touches[0] : e;
-        return {
-          x: (cl.clientX - r.left) * (derW / r.width),
-          y: (cl.clientY - r.top) * (derH / r.height),
-        };
+      if (!isFinite(y) || y < yMin - 3 || y > yMax + 3) {
+        started = false;
+        continue;
       }
-      dercv.addEventListener("mousedown", (e) => {
-        e.preventDefault();
-        derDrag = true;
-        const p = derPtInCv(e);
-        derSync(clamp(-7 + (p.x / derW) * 14, -6, 6));
-        dercv.style.cursor = "ew-resize";
-      });
-      dercv.addEventListener("mousemove", (e) => {
-        e.preventDefault();
-        if (!derDrag) return;
-        const p = derPtInCv(e);
-        derSync(clamp(-7 + (p.x / derW) * 14, -6, 6));
-      });
-      dercv.addEventListener("mouseup", () => {
-        derDrag = false;
-        dercv.style.cursor = "default";
-      });
-      dercv.addEventListener("mouseleave", () => {
-        derDrag = false;
-      });
-      dercv.addEventListener(
-        "touchstart",
-        (e) => {
-          e.preventDefault();
-          derDrag = true;
-          const p = derPtInCv(e);
-          derSync(clamp(-7 + (p.x / derW) * 14, -6, 6));
-        },
-        { passive: false },
-      );
-      dercv.addEventListener(
-        "touchmove",
-        (e) => {
-          e.preventDefault();
-          if (!derDrag) return;
-          const p = derPtInCv(e);
-          derSync(clamp(-7 + (p.x / derW) * 14, -6, 6));
-        },
-        { passive: false },
-      );
-      dercv.addEventListener("touchend", () => {
-        derDrag = false;
-      });
-      function derResize() {
-        const sz = setupCanvas(dercv, 440);
-        derW = sz.w;
-        derH = sz.h;
-        derDraw();
+      const [sx, sy] = tp(x, y, off);
+      if (!started) {
+        derctx.moveTo(sx, sy);
+        started = true;
+      } else {
+        derctx.lineTo(sx, sy);
       }
+    }
+    derctx.stroke();
+    
+    // Tangent line (for f(x) only)
+    if (showTan) {
+      let fy2;
+      try {
+        fy2 = fn(derX);
+      } catch (e) {
+        fy2 = 0;
+      }
+      let slope;
+      try {
+        slope = dfn(derX);
+      } catch (e) {
+        slope = 0;
+      }
+      derctx.beginPath();
+      const leftX = Math.max(xMin, derX - 3);
+      const rightX = Math.min(xMax, derX + 3);
+      derctx.moveTo(...tp(leftX, slope * (leftX - derX) + fy2, off));
+      derctx.lineTo(...tp(rightX, slope * (rightX - derX) + fy2, off));
+      derctx.strokeStyle = "#fbbf24";
+      derctx.lineWidth = 1.5;
+      derctx.setLineDash([5, 5]);
+      derctx.stroke();
+      derctx.setLineDash([]);
+      const [px, py] = tp(derX, fy2, off);
+      drawDot(derctx, px, py, "#fbbf24", 7);
+    } else {
+      let dy;
+      try {
+        dy = dfn(derX);
+      } catch (e) {
+        dy = 0;
+      }
+      const [px, py] = tp(derX, dy, off);
+      drawDot(derctx, px, py, "#fb7185", 7);
+    }
+    
+    derctx.fillStyle = col;
+    derctx.font = "bold 11px 'DM Mono',monospace";
+    derctx.textAlign = "left";
+    derctx.textBaseline = "top";
+    derctx.fillText(label, 8, off + 6);
+  }
+  
+  derctx.beginPath();
+  derctx.moveTo(0, halfH + 2);
+  derctx.lineTo(W, halfH + 2);
+  derctx.strokeStyle = "rgba(255,255,255,0.08)";
+  derctx.lineWidth = 1;
+  derctx.stroke();
+  
+  drawHalf(fn, "#a78bfa", "f(x) = " + derFns[derFnIdx].label, 0, true);
+  drawHalf(dfn, "#fb7185", "f′(x) = " + derFns[derFnIdx].dlabel, halfH + 6, false);
+  
+  // Update info display
+  let fy, slope;
+  try {
+    fy = fn(derX);
+  } catch (e) {
+    fy = 0;
+  }
+  try {
+    slope = dfn(derX);
+  } catch (e) {
+    slope = 0;
+  }
+  document.getElementById("der-x-val").textContent = derX.toFixed(3);
+  document.getElementById("der-fx").textContent = isFinite(fy) ? fy.toFixed(4) : "—";
+  document.getElementById("der-fpx").textContent = isFinite(slope) ? slope.toFixed(4) : "—";
+  const intercept = fy - slope * derX;
+  document.getElementById("der-tan").textContent = isFinite(slope) ? "y=" + slope.toFixed(2) + "x + " + intercept.toFixed(2) : "—";
+  document.getElementById("der-formula").textContent = "f(x) = " + derFns[derFnIdx].label + "  →  f′(x) = " + derFns[derFnIdx].dlabel;
+  
+  derctx.restore();
+}
+
+function derResize() {
+  const sz = setupCanvas(dercv, 440);
+  derW = sz.w;
+  derH = sz.h;
+  derDraw();
+}
+
+// Initialize custom functions
+derBuildCustomFns();
 
       // ─── GRAPH BUILDER ────────────────────────────────────────────
       const gbcv = document.getElementById("gb-cv");
@@ -5114,7 +4958,6 @@
         "#fbbf24",
         "#a78bfa",
       ];
-
       function gbFn(x) {
         const { a, b, c, d, e } = gbCoefs;
         if (gbPower === 1) return a * x + b;
@@ -5132,28 +4975,20 @@
         gbUpdateAll();
       }
       function gbBuildControls() {
-        const keys = gbCoefKeys[gbPower];
-        const labels = gbCoefLabels[gbPower];
+        const keys = gbCoefKeys[gbPower],
+          labels = gbCoefLabels[gbPower];
         let html = "";
         keys.forEach((k, i) => {
-          const col = gbCoefColors[i];
-          const v = gbCoefs[k] || 0;
-          html += `<div class="ctrl-row">
-      <span class="ctrl-label" style="color:${col};min-width:80px;font-size:11px">${labels[i]}</span>
-      <input type="range" min="-5" max="5" step="0.1" value="${v}" id="gb-sl-${k}" oninput="gbSync('${k}',parseFloat(this.value))">
-      <div class="num-wrap">
-        <button class="arr-btn" onclick="gbStep('${k}',-0.1)">‹</button>
-        <input type="number" min="-5" max="5" step="0.1" value="${v}" id="gb-num-${k}" oninput="gbSync('${k}',parseFloat(this.value))">
-        <button class="arr-btn" onclick="gbStep('${k}',0.1)">›</button>
-      </div>
-    </div>`;
+          const col = gbCoefColors[i],
+            v = gbCoefs[k] || 0;
+          html += `<div class="ctrl-row"><span class="ctrl-label" style="color:${col};min-width:80px;font-size:11px">${labels[i]}</span><input type="range" min="-5" max="5" step="0.1" value="${v}" id="gb-sl-${k}" oninput="gbSync('${k}',parseFloat(this.value))"><div class="num-wrap"><button class="arr-btn" onclick="gbStep('${k}',-0.1)">‹</button><input type="number" min="-5" max="5" step="0.1" value="${v}" id="gb-num-${k}" oninput="gbSync('${k}',parseFloat(this.value))"><button class="arr-btn" onclick="gbStep('${k}',0.1)">›</button></div></div>`;
         });
         document.getElementById("gb-controls").innerHTML = html;
       }
       function gbStep(k, d) {
         gbCoefs[k] = parseFloat(clamp((gbCoefs[k] || 0) + d, -5, 5).toFixed(1));
-        const sl = document.getElementById("gb-sl-" + k);
-        const nm = document.getElementById("gb-num-" + k);
+        const sl = document.getElementById("gb-sl-" + k),
+          nm = document.getElementById("gb-num-" + k);
         if (sl) sl.value = gbCoefs[k];
         if (nm) nm.value = gbCoefs[k];
         gbUpdateAll();
@@ -5161,8 +4996,8 @@
       function gbSync(k, v) {
         if (isNaN(v)) return;
         gbCoefs[k] = parseFloat(clamp(v, -5, 5).toFixed(1));
-        const sl = document.getElementById("gb-sl-" + k);
-        const nm = document.getElementById("gb-num-" + k);
+        const sl = document.getElementById("gb-sl-" + k),
+          nm = document.getElementById("gb-num-" + k);
         if (sl) sl.value = gbCoefs[k];
         if (nm) nm.value = gbCoefs[k];
         gbUpdateAll();
@@ -5311,7 +5146,6 @@
           } else gbctx.lineTo(sx, sy);
         }
         gbctx.stroke();
-        // x-axis roots (pink)
         for (let xi = -10; xi <= 10; xi += 0.04) {
           const y1 = gbFn(xi),
             y2 = gbFn(xi + 0.04);
@@ -5329,7 +5163,6 @@
             }
           }
         }
-        // y-intercept (purple dot)
         const yint = gbFn(0);
         if (isFinite(yint) && yint >= yMin && yint <= yMax) {
           const [px, py] = tp(0, yint);
